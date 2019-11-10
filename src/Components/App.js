@@ -1,25 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Layout from './layout/Layout'
+import '../scss/components/header.scss'
 
 
-class App extends Component {
-  render() {
-    return (
-      <Layout>
-        <div id='main-content'>
-          <div className='mainleft'>
-            mainleft
-          </div>
-          <div className='maincenter'>
-            maincenter
-          </div>
-          <div className='mainright'>
-            mainright
-          </div>
-        </div>
-      </Layout>
-    )
-  }
-}
+const App = () => (
+
+  <Layout
+  />
+
+)
 
 export default App

@@ -7,12 +7,10 @@ header {
 }
 
 .topnav-container {
-  transition: top .3s ease-in-out;
+  transition: top .4s linear, background .2s linear, color .1s linear,
+  box-shadow .4s linear, border .1s linear;
   height: 66px;
   z-index: 3000;
-  // background: #FFF;
-  // border-bottom: 1px solid #E5E5E5;
-  // box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
   position: fixed;
   top: 0;
   left: 0;
@@ -21,16 +19,43 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  &.headsup {
+    background: #FFF;
+    border-bottom: 1px solid #E5E5E5;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
+    .topnav-link {
+      border: 2px solid #3391b5;
+      p {
+        color: #3184b6;
+      }
+    }
+    .topnav-logo {
+      background: url('../../images/logo-one-try.png') no-repeat 0 6px;
+      height: auto;
+      width: 100%;
+      max-width: 65px;
+      background-size: contain;
+      margin: 2px 0;
+      @media screen and (min-width: 1024px) {
+        max-width: 75px;
+        background-position-y: 4px;
+      }
+      img {
+        display: none;
+      }
+    }
+  }
 }
 
 .topnav-logo {
   img {
     height: auto;
-    padding: 9px 0;
+    margin: 8px 0;
     width: 100%;
     max-width: 65px;
     @media screen and (min-width: 1024px) {
-      max-width: 100px;
+      max-width: 75px;
+      margin: 5px 0;
     }
   }
 }
@@ -42,7 +67,7 @@ header {
   p {
     font-size: 1.20rem;
     margin: 0;
-    padding: 0 10px;
+    padding: 0;
     // color: #3184b6;
     color: #f5f5f5;
     font-weight: 400;
@@ -137,7 +162,7 @@ header {
 }
 
 .search-filters {
-  color: #FFF;
+  color: #fafafa;
   display: flex;
   flex-direction: row;
   line-height: 24px;
@@ -152,7 +177,8 @@ header {
     text-align: left;
     margin-left: .35rem;
     font-weight: 500;
-    color: #4dfffd;
+    opacity: .9;
+    color: #5dedf2;
     cursor: pointer;
 
   }
