@@ -1,10 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {BrowserRouter as Router} from 'react-router-dom'
 import './scss/global.css'
 import App from './Components/App'
 
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-)
+
+  <Router>
+    <App />
+  </Router>,
+
+  document.getElementById('root'))
