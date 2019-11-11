@@ -50,10 +50,10 @@
       flex: 1 1 auto;
       span.gitlabel {
         right: 0px;
-        border-left: 46px solid transparent;
+        border-left: 60px solid transparent;
         width: 0;
         height: 0;
-        border-top: 46px solid #2e79b5;
+        border-top: 42px solid rgba(185, 185, 185, 0.5);
         color: #FFFFFF;
         font-size: 11px;
         font-style: italic;
@@ -61,6 +61,16 @@
         position: absolute;
         top: 0;
         z-index: 10;
+        mix-blend-mode: luminosity;
+        span {
+          position: absolute;
+          top: -41px;
+          right: 3px;
+          font-weight: 600;
+          font-size: .6rem;
+
+
+        }
       }
       .gitflip {
         margin-bottom: 10px;
@@ -72,13 +82,13 @@
 
             height: auto;
             @media screen and (min-width: 768px) {
-              max-width: 300px;
+              width: 300px;
             }
             @media screen and (min-width: 1024px) {
-               max-width: 420px;
+               width: 420px;
             }
             @media screen and (min-width: 1201px) {
-              max-width: 240px;
+              width: 300px;
             }
 
           }
@@ -103,7 +113,11 @@
         transform: scale();
         width: 130px;
         height: 32px;
-        transition: all 0.4s ease 0s;
+        transition: background .4s linear, border .3s linear;
+        &:hover {
+          background: transparent;
+          border: 1px solid #11757f;
+        }
         span {
           line-height: 30px;
           font-size: .7rem;
@@ -120,6 +134,22 @@
       }
       .left {
         border-bottom: 1px solid #E5E5E5;
+        .git-other {
+
+          .gitprofile {
+            padding-left: 8px;
+            a {
+              color: #F44336;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      .right {
+        .gitscore span {
+          color: #11757f;
+          padding-left: 8px;
+        }
       }
     }//gitinfo
 
