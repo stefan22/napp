@@ -26,7 +26,7 @@ class Layout extends Component {
 
   render() {
     const {data:{items}} = this.state
-    console.log(this.state.data)
+    console.log(items)
 
 
     return (
@@ -41,36 +41,36 @@ class Layout extends Component {
               <div className='gitinner'>
                 <div className='git-row'>
 
-                  <div className="git-item">
-                    <div className="gitblock">
+                  <div className='git-item'>
+                    <div className='gitblock'>
 
-                      <div className="gitimage ">
-                        <span className="gitlabel">
+                      <div className='gitimage '>
+                        <span className='gitlabel'>
                           <span>User</span>
                         </span>
-                        <div className="gitflip">
-                          <a href="" className="gitflip-image">
+                        <div className='gitflip'>
+                          <a className='gitflip-image'>
                             <img src={gituser} alt='' width='460' height='460' />
                           </a>
                         </div>
-                        <a href="" className='gitflip-text'>
+                        <a className='gitflip-text'>
                           <span>View User</span>
                         </a>
                       </div>
 
-                      <div className="gitinfo">
-                        <div className="left">
-                          <h3 className="name">
-                            iPhone 5s 64 GB
+                      <div className='gitinfo'>
+                        <div className='left'>
+                          <h3 className='name'>
+                            User name
                           </h3>
-                          <div className="price">
-                            <span className="price-old">$119.50</span>
-                            <span className="price-tax">Ex Tax: $90.00</span>
+                          <div className='price'>
+                            <span className='price-old'>xxxx</span>
+                            <span className='price-tax'>xxxxxxxx</span>
                           </div>
                         </div>
 
-                        <div className="right">
-                          <p class="description">
+                        <div className='right'>
+                          <p className='description'>
                             Lorem Ipsum is simply dummy
                           </p>
                         </div>
@@ -78,36 +78,36 @@ class Layout extends Component {
 
                     </div>
                   </div>
-                   <div className="git-item">
-                    <div className="gitblock">
+                  <div className='git-item'>
+                    <div className='gitblock'>
 
-                      <div className="gitimage ">
-                        <span className="gitlabel">
+                      <div className='gitimage '>
+                        <span className='gitlabel'>
                           <span>User</span>
                         </span>
-                        <div className="gitflip">
-                          <a href="" className="gitflip-image">
+                        <div className='gitflip'>
+                          <a className='gitflip-image'>
                             <img src={gituser} alt='' width='460' height='460' />
                           </a>
                         </div>
-                        <a href="" className='gitflip-text'>
+                        <a className='gitflip-text'>
                           <span>View User</span>
                         </a>
                       </div>
 
-                      <div className="gitinfo">
-                        <div className="left">
-                          <h3 className="name">
-                            iPhone 5s 64 GB
+                      <div className='gitinfo'>
+                        <div className='left'>
+                          <h3 className='name'>
+                            User name
                           </h3>
-                          <div className="price">
-                            <span className="price-old">$119.50</span>
-                            <span className="price-tax">Ex Tax: $90.00</span>
+                          <div className='price'>
+                            <span className='price-old'>xxxx</span>
+                            <span className='price-tax'>xxxxxxxx</span>
                           </div>
                         </div>
 
-                        <div className="right">
-                          <p class="description">
+                        <div className='right'>
+                          <p className='description'>
                             Lorem Ipsum is simply dummy
                           </p>
                         </div>
@@ -115,36 +115,36 @@ class Layout extends Component {
 
                     </div>
                   </div>
-                   <div className="git-item">
-                    <div className="gitblock">
+                  <div className='git-item'>
+                    <div className='gitblock'>
 
-                      <div className="gitimage ">
-                        <span className="gitlabel">
+                      <div className='gitimage '>
+                        <span className='gitlabel'>
                           <span>User</span>
                         </span>
-                        <div className="gitflip">
-                          <a href="" className="gitflip-image">
+                        <div className='gitflip'>
+                          <a className='gitflip-image'>
                             <img src={gituser} alt='' width='460' height='460' />
                           </a>
                         </div>
-                        <a href="" className='gitflip-text'>
+                        <a className='gitflip-text'>
                           <span>View User</span>
                         </a>
                       </div>
 
-                      <div className="gitinfo">
-                        <div className="left">
-                          <h3 className="name">
-                            iPhone 5s 64 GB
+                      <div className='gitinfo'>
+                        <div className='left'>
+                          <h3 className='name'>
+                            User name
                           </h3>
-                          <div className="price">
-                            <span className="price-old">$119.50</span>
-                            <span className="price-tax">Ex Tax: $90.00</span>
+                          <div className='price'>
+                            <span className='price-old'>xxxx</span>
+                            <span className='price-tax'>xxxxxxxx</span>
                           </div>
                         </div>
 
-                        <div className="right">
-                          <p class="description">
+                        <div className='right'>
+                          <p className='description'>
                             Lorem Ipsum is simply dummy
                           </p>
                         </div>
@@ -152,36 +152,36 @@ class Layout extends Component {
 
                     </div>
                   </div>
-                   <div className="git-item">
-                    <div className="gitblock">
+                  <div className='git-item'>
+                    <div className='gitblock'>
 
-                      <div className="gitimage ">
-                        <span className="gitlabel">
+                      <div className='gitimage '>
+                        <span className='gitlabel'>
                           <span>User</span>
                         </span>
-                        <div className="gitflip">
-                          <a href="" className="gitflip-image">
+                        <div className='gitflip'>
+                          <a className='gitflip-image'>
                             <img src={gituser} alt='' width='460' height='460' />
                           </a>
                         </div>
-                        <a href="" className='gitflip-text'>
+                        <a className='gitflip-text'>
                           <span>View User</span>
                         </a>
                       </div>
 
-                      <div className="gitinfo">
-                        <div className="left">
-                          <h3 className="name">
-                            iPhone 5s 64 GB
+                      <div className='gitinfo'>
+                        <div className='left'>
+                          <h3 className='name'>
+                            User name
                           </h3>
-                          <div className="price">
-                            <span className="price-old">$119.50</span>
-                            <span className="price-tax">Ex Tax: $90.00</span>
+                          <div className='price'>
+                            <span className='price-old'>xxxx</span>
+                            <span className='price-tax'>xxxxxxxx</span>
                           </div>
                         </div>
 
-                        <div className="right">
-                          <p class="description">
+                        <div className='right'>
+                          <p className='description'>
                             Lorem Ipsum is simply dummy
                           </p>
                         </div>
@@ -189,6 +189,7 @@ class Layout extends Component {
 
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
