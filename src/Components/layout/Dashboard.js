@@ -5,6 +5,7 @@ import List from '../helpers/List'
 import '../../scss/components/gitlist.scss'
 import GitUsersList from '../GitUsersList'
 
+
 const getUsers = user => (
   `https://api.github.com/search/users?q=${user}`
 )
@@ -35,6 +36,7 @@ class Dashboard extends Component {
         <Header
           fetchGitData={this.fetchGitData}
         />
+
         <main>
           <div id='main-content'>
             <div className='maincenter'>

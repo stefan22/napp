@@ -21,11 +21,11 @@ const GitUsersList = (
           <span>{id}</span>
         </span>
         <div className='gitflip'>
-          <Link to='' className='gitflip-image'>
+          <Link to={`/gituser/${id}`} className='gitflip-image'>
             <img src={avatar_url} alt='' width='460' height='460' />
           </Link>
         </div>
-        <Link to='' className='gitflip-text'>
+        <Link to={`/gituser/${id}`} className='gitflip-text'>
           <span>View User</span>
         </Link>
       </div>
