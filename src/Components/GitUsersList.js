@@ -48,7 +48,7 @@ const GitUsersList = (
 
         <div className='right'>
           <p className='gitscore'>
-             Score: <span>{score.toFixed(2)}</span>
+             Score: <span>{score.toFixed(0)}</span>
           </p>
         </div>
       </div>
