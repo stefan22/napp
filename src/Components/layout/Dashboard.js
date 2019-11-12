@@ -4,11 +4,8 @@ import Footer from './Footer'
 import List from '../helpers/List'
 import '../../scss/components/gitlist.scss'
 import GitUsersList from '../GitUsersList'
+import {GitApiUsers} from '../helpers/GitApi'
 
-
-const getUsers = user => (
-  `https://api.github.com/search/users?q=${user}`
-)
 
 class Dashboard extends Component {
   constructor(props) {
@@ -19,7 +16,7 @@ class Dashboard extends Component {
   }
 
   fetchGitData = async (usr) => {
-    const response = await fetch(getUsers(usr))
+    const response = await fetch(GitApiUsers(usr))
     return (
       await response.json()
         .then(data => this.setState({data}))
@@ -28,8 +25,6 @@ class Dashboard extends Component {
 
   render() {
     const {data:{items}} = this.state
-    console.log(items)
-
 
     return (
       <>

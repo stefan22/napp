@@ -21,11 +21,19 @@ const GitUsersList = (
           <span>{id}</span>
         </span>
         <div className='gitflip'>
-          <Link to={`/gituser/${id}`} className='gitflip-image'>
+          <Link to={{
+            pathname: `/gituser/${id}`,
+            login: login,
+          }}
+          className='gitflip-image'>
             <img src={avatar_url} alt='' width='460' height='460' />
           </Link>
         </div>
-        <Link to={`/gituser/${id}`} className='gitflip-text'>
+        <Link to={{
+          pathname: `/gituser/${id}`,
+          login: login,
+        }}
+        className='gitflip-text'>
           <span>View User</span>
         </Link>
       </div>
@@ -38,7 +46,7 @@ const GitUsersList = (
           <div className='git-other'>
             <span>Profile: </span>
             <span className='gitprofile'>
-              <a href={html_url} target='_blank'
+              <a href={html_url} target='_blank' rel='noopener noreferrer'
                 title={`${login} - Git profile`}>
                 {`${login}_page`}
               </a>
