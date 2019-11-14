@@ -26,11 +26,9 @@ class GitUser extends Component {
   render() {
     const {user} = this.state
 
-    console.log(this)
-
     return (
       <>
-        <header>
+        <header className='gituser-header'>
           <div className='topnav-container gituser'>
             <div className='topnav-logo'>
               <img src={logo__white} alt='logo' />
@@ -46,10 +44,19 @@ class GitUser extends Component {
 
             <div className='gituser__header'>
               <div className='gituser__intro'>
-                <h2>Git-username: {user.name}</h2>
-                <h4>Location: {user.location}</h4>
-                <h4>Blog: {user.blog}</h4>
-                <h4>Company: {user.company}</h4>
+                <h1>GitHub User</h1>
+                <div className='gituser__info'>
+                  <h3><span>Username:</span> {user.name}</h3>
+                  <h3><span>Location:</span> {(user.location) ?
+                    user.location :
+                    'Not Available'}</h3>
+                  <h3>
+                    <span>Blog:</span> {
+                      (user.blog) ? user.blog : 'Not Available'
+                    }</h3>
+                  <h3><span>Company:</span> {(user.company) ? user.company :
+                    'Not Available'}</h3>
+                </div>
               </div>
             </div>
 
@@ -57,10 +64,10 @@ class GitUser extends Component {
               <div className='gituser__pic'>
                 <img src={user.avatar_url} width={250} height={250} alt={user.name} />
                 <div className='gituser__stats'>
-                  <p>Followers: {user.followers}</p>
-                  <p>Following: {user.following}</p>
-                  <p>Gits Id:{user.gits_url}</p>
-                  <p>Repos: {user.public_repos}</p>
+                  <p><span>GitHub Followers:</span> {user.followers}</p>
+                  <p><span>GitHub Following:</span> {user.following}</p>
+                  <p><span>GitHub Id:</span> {user.id}</p>
+                  <p><span>GitHub Repos:</span> {user.public_repos}</p>
                 </div>
               </div>
             </div>
