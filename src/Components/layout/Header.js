@@ -10,11 +10,13 @@ class Header extends Component {
       didScroll: false,
       lastScrolledTop: 0,
       queryString: '',
+      filterBy: 'User',
     }
     this.hasScrolled = this.hasScrolled.bind(this)
     this.scrollNavigation = this.scrollNavigation.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSearchQuery = this.handleSearchQuery.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
   }
 
   componentDidMount() {
@@ -58,10 +60,18 @@ class Header extends Component {
     }
   }
 
+  handleFilter(e) {
+    this.setState({
+      filterBy: e.target.value,
+    })
+  }
+
   handleSearchQuery(e) {
     e.preventDefault()
+    const {filterBy} = this.state
     this.props.fetchGitData(
-      this.state.queryString
+      this.state.queryString,
+      filterBy
     )
   }
 
@@ -70,6 +80,7 @@ class Header extends Component {
   }
 
   render() {
+    const {filterBy} = this.state
 
     return (
 
@@ -85,7 +96,10 @@ class Header extends Component {
 
         <div className='search-container'>
           <div className='search-container-inner'>
-            <h2 className='search-container__title'>Git Search By <span>Username</span></h2>
+            <h2 className='search-container__title'>
+              Git Search By
+              <span>{filterBy}</span>
+            </h2>
             <form
               onSubmit={this.handleSearchQuery}
               className='search-form'>
@@ -96,9 +110,32 @@ class Header extends Component {
                 className='search-form__input'
                 type='text' name='search'
               />
-              <div className='search-filters'>Filter by:
-                <span>Username</span> &
-                <span>Organization</span>
+
+              <div className='search-filters'>
+                <div className='radio-container'>
+                  Filter by:
+                  <label className='radio-label'>
+                    <input
+                      onChange={this.handleFilter}
+                      type='radio'
+                      value={'User'}
+                      checked={(filterBy === 'User')}
+                      name='radio' id='username'
+                    />
+                    <span className='now-radio'></span>
+                    <span className='islabel'>Username</span>
+                  </label>
+                  <label className='radio-label'>
+                    <input
+                      onChange={this.handleFilter}
+                      type='radio'
+                      value={'Organization'}
+                      checked={(filterBy === 'Organization')}
+                      name='radio' id='organization' />
+                    <span className='now-radio'></span>
+                    <span className='islabel'>Organization</span>
+                  </label>
+                </div>
               </div>
             </form>
           </div>

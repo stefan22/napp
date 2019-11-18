@@ -1,5 +1,5 @@
 import React from 'react'
-import Dashboard from './layout/Dashboard'
+import Dashboard from './Dashboard'
 import GitUser from './GitUser'
 import {Route, Switch} from 'react-router-dom'
 import '../scss/components/header.scss'
@@ -12,7 +12,7 @@ const App = () => (
     <Route path={'/'}
       component={Dashboard} exact
     />
-    <Route path={'/gituser/:id'} exact
+    <Route path={'/git/:id'} exact
       component={GitUser}
     />
 

@@ -13,17 +13,12 @@ class List extends Component {
               key={itm.id}
               seckey={idx}
               {...itm}
-
             />
-
           )
         }
       </>
     )
   }
-
-
-
 
 }
 
