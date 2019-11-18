@@ -17,6 +17,15 @@
 ![](src/images/gituser.png)
 
 
-
-
 :100:
+
+
+#### ttdo
+
+- details page header top nav scrolling
+- refactoring
+- pagination (console)
+- nav links
+- filters/sorting
+- anim
+- etc etc...
