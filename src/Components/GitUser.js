@@ -30,6 +30,7 @@ class GitUser extends Component {
 
   appendData = (login,type) => {//<= need meta link for pagination
     let script = document.createElement('script')
+    script.id = 'cb'
     script.src = this.fetchRepos(login,type)
     script.type = 'text/babel'
     console.log(script)
@@ -86,6 +87,10 @@ class GitUser extends Component {
 
 
   render() {
+
+    window.appendData = data => {
+      console.log(data)
+    }
 
     const {user,gitSingle:{repos:{items}},loading} = this.state
 
