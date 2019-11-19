@@ -3,7 +3,7 @@ import {withRouter, Link} from 'react-router-dom'
 import List from './helpers/List'
 import ReposTable from './ReposTable'
 import Footer from '../Components/layout/Footer'
-import {GitApiUserStats,GitApiReposUrl, GitApiRepos} from './helpers/GitApi'
+//import {GitApiUserStats,GitApiReposUrl, GitApiRepos,callback} from './helpers/GitApi'
 import logo__white from '../images/logo-one-try__white.png'
 import '../scss/components/gituser.scss'
 import loadingBall from '../images/ball.gif'
@@ -28,61 +28,45 @@ class GitUser extends Component {
     this.fetchRepos = this.fetchRepos.bind(this)
   }
 
-  appendData = (login,type) => {//<= need meta link for pagination
-    let script = document.createElement('script')
-    script.id = 'cb'
-    script.src = this.fetchRepos(login,type)
-    script.type = 'text/babel'
-    console.log(script)
-    document.getElementsByTagName('head')[0].appendChild(script)
+  fetchRepos = (usrnm,type='User') => {
+    // const repos = callback(usrnm,type)
+    // if(repos) {
+    //   this.setState({
+    //     gitSingle: {repos: {items: repos}}
+    //   })
+    // }
   }
 
   componentDidMount = async () => {
-    const {login,type} = this.props.history.location
-    this.appendData(login,type)
-    //showing data from here
-    let usr = await fetch(GitApiUserStats(login))
-    return (
-      await usr.json()
-        .then(user => this.setState({user}))
-        .catch(err => console.log(err)),
-      //nx repos
-      this.showReposData(login,type) //repos
-    )
+    // const {login,type} = this.props.history.location
+    // this.fetchRepos(login,type)
+    // //showing data from here
+    // //let usr = await fetch(GitApiUserStats(login))
+    // return (
+    //   await usr.json()
+    //     .then(user => this.setState({user}))
+    //     .catch(err => console.log(err)),
+    //   //nx repos
+    //   this.showReposData(login,type) //repos
+    // )
   }
 
 
-  fetchRepos(usr,param='User') {//jsonp
-    const getRepos = new Request(GitApiReposUrl(usr,param), {
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-    })
-    fetch(getRepos).then(response => response.text())
-      .then(body => {
-        let data = body
-        console.log(data)
-        let meta = body['meta']
-        console.log(meta)
-        return data
-      })
-  }
-
-  showReposData = async (usr,param='User') => {
-    const repos = await fetch(GitApiRepos(usr,param))
-    return (
-      await repos.json()
-        .then(reps => this.setState({//add repos state
-          gitSingle: {
-            name: usr,
-            type: param,
-            repos: {
-              items: reps,
-            },
-          },loading: false,
-        }))
-    )
-  }
+  // showReposData = async (usr,param='User') => {
+  //   const repos = await fetch(GitApiRepos(usr,param))
+  //   return (
+  //     await repos.json()
+  //       .then(reps => this.setState({//add repos state
+  //         gitSingle: {
+  //           name: usr,
+  //           type: param,
+  //           repos: {
+  //             items: reps,
+  //           },
+  //         },loading: false,
+  //       }))
+  //   )
+  // }
 
 
 

@@ -225,7 +225,7 @@ header {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    .gp--page {
+    .gp--page,.gp--arrow {
       color: rgba(0,0,0,.75);
       padding: 0 12px;
       text-decoration: none;
@@ -245,7 +245,7 @@ header {
         border: 1px solid #dedede;
       }
     }
-    .gp--active {
+    .active {
       background-color: #619d9b;
         padding: 0 10px;
         line-height: 2.75;

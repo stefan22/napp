@@ -22,6 +22,10 @@
 
 #### ttdo
 
+> changing how data is fetched,filtered & pagination
+> disabled details page
+> matching search query to user/login name
+
 - details page header top nav scrolling
 - refactoring
 - pagination (console)
@@ -31,4 +35,3 @@
 - etc etc...
 
 
-<removed-token>

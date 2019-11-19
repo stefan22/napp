@@ -24,6 +24,7 @@ module.exports = {
       "semi": ["error", "never"],
       "indent": ["error", 2],
       "quotes": ["error", "single"],
-      "no-mixed-spaces-and-tabs": 0
+      "no-mixed-spaces-and-tabs": 0,
+      "no-unexpected-multiline": 0,
     }
 };
