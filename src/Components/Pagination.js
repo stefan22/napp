@@ -1,22 +1,27 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 
 
-const Pagination = ({page,totalPages}) => (
+const Pagination = ({page,totalPages,handlePagination}) => (
 
   <div className='gituser__pagination'>
     <div className='pagination__wrapper'>
-      <Link
+      <button
+        disabled={page <= 1}
+        onClick={() => handlePagination('prev')}
         to=''
         className='gp--arrow'>&laquo;
-      </Link>
-      <Link to='' className='gp--page'>{page}</Link>
-      <span className='gp-page active'>of</span>
-      <Link to='' className='gp--page'>{totalPages}</Link>
-      <Link
-        to=''
+      </button>
+
+      <span
+        className='gp-page tally'>
+        page <b>{page}</b> of <b>{totalPages}</b>
+      </span>
+
+      <button
+        disabled={page >= totalPages}
+        onClick={() =>  handlePagination('next')}
         className='gp--arrow'>&raquo;
-      </Link>
+      </button>
     </div>
   </div>
 

@@ -14,19 +14,38 @@ const headers = {//search users
 */
 export const GitAPI_searchUserRepos = async (name) => {
   const userReposUrl = `
-  ${url}/search/users?q=${name} in:login repos:>1 type:user&per_page=28
+  ${url}/search/users?q=${name}+repos:>1+in:login+type:user
   `
   const response = await fetch(userReposUrl, {
     'method': 'GET',
     'headers': headers
   })
 
-  let links = parseHeaderLink(response.headers.get('link'))
-  let result = await response.json()
-  result.headerLinks = links
-  console.log(result)
-  return result
+  if(response.headers.get('link') !== null) {
+    let links = parseHeaderLink(response.headers.get('link'))
+    let result = await response.json()
+    result.headerLinks = links
+    console.log(result)
+    return result
+  }
 
+}//GitApiRepos
+
+
+/*
+   git search user repos next page
+*/
+export const GitAPI_searchNextPage = async (nxt) => {
+  const response = await fetch(nxt, {
+    'method': 'GET',
+    'headers': headers
+  })
+  if(response.headers.get('link') !== null) {
+    let links = parseHeaderLink(response.headers.get('link'))
+    let result = await response.json()
+    result.headerLinks = links
+    return result
+  }
 }//GitApiRepos
 
 
