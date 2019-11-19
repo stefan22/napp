@@ -227,6 +227,7 @@ header {
     justify-content: center;
     .gp--page,.gp--arrow {
       color: rgba(0,0,0,.75);
+      cursor: pointer;
       padding: 0 12px;
       text-decoration: none;
       transition: background-color .3s linear;
@@ -236,6 +237,9 @@ header {
       line-height: 2.75;
       font-size: .8rem;
       vertical-align: middle;
+      &:focus {
+        outline: none;
+      }
       @media only screen and (min-width: 768px) {
         padding: 8px 16px;
         line-height: 1.5;
@@ -245,7 +249,7 @@ header {
         border: 1px solid #dedede;
       }
     }
-    .active {
+    .tally {
       background-color: #619d9b;
         padding: 0 10px;
         line-height: 2.75;
