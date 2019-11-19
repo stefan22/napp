@@ -13,7 +13,7 @@
 
 ![](src/images/screenshot.png)
 
-`sketching out layout`
+
 ![](src/images/gituser.png)
 
 
@@ -22,8 +22,13 @@
 
 #### ttdo
 
+#### fixed User search pagination A` la Github
+- navigation through pages up/down working nicely
+- still to do need reset pagination for new searches
+- cleaning up/ refactoring
+
 > changing how data is fetched,filtered & pagination
-> disabled details page
+> disabled details page, filters
 > matching search query to user/login name
 
 - details page header top nav scrolling
