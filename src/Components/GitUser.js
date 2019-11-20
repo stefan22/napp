@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {withRouter, Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
+import Pagination from './Pagination'
 import List from './helpers/List'
 import ReposTable from './ReposTable'
 import Footer from '../Components/layout/Footer'
-//import {GitApiUserStats,GitApiReposUrl, GitApiRepos,callback} from './helpers/GitApi'
+import {GitApi_userRepos,GitAPI_searchNextPrevPage} from './helpers/GitApi'
 import logo__white from '../images/logo-one-try__white.png'
 import '../scss/components/gituser.scss'
 import loadingBall from '../images/ball.gif'
@@ -24,59 +25,103 @@ class GitUser extends Component {
       page: 1,
       loading: true,
     }
-
-    this.fetchRepos = this.fetchRepos.bind(this)
-  }
-
-  fetchRepos = (usrnm,type='User') => {
-    // const repos = callback(usrnm,type)
-    // if(repos) {
-    //   this.setState({
-    //     gitSingle: {repos: {items: repos}}
-    //   })
-    // }
-  }
-
-  componentDidMount = async () => {
-    // const {login,type} = this.props.history.location
-    // this.fetchRepos(login,type)
-    // //showing data from here
-    // //let usr = await fetch(GitApiUserStats(login))
-    // return (
-    //   await usr.json()
-    //     .then(user => this.setState({user}))
-    //     .catch(err => console.log(err)),
-    //   //nx repos
-    //   this.showReposData(login,type) //repos
-    // )
   }
 
 
-  // showReposData = async (usr,param='User') => {
-  //   const repos = await fetch(GitApiRepos(usr,param))
-  //   return (
-  //     await repos.json()
-  //       .then(reps => this.setState({//add repos state
-  //         gitSingle: {
-  //           name: usr,
-  //           type: param,
-  //           repos: {
-  //             items: reps,
-  //           },
-  //         },loading: false,
-  //       }))
-  //   )
-  // }
+  componentDidMount() {
+    const {login} = this.props.history.location
+    this.getUserRepos(login)
+  }
+
+  getHeaderLinks = link => {
+    let brknprevName,brknlastName,brknnextName,brknprevLink,brknprev
+    if(typeof link === 'object') {
+      if(link.prev !== undefined) {
+        brknprevLink = link.prev//links
+        brknprev = brknprevLink !== undefined ? brknprevLink.split('=') : undefined
+        brknprevName = Number(brknprev.filter((lk,idx) => idx === brknprev.length -1))
+      }
+      if (link.last !== undefined) {
+        let brknlastLink = link.last
+        let brknlast = brknlastLink !== undefined ? brknlastLink.split('=') : undefined
+        brknlastName = Number(brknlast.filter((lk,idx) => idx === brknlast.length -1))
+      }
+      if(link.next !== undefined) {
+        let brknnextLink = link.next
+        let brknnext = brknnextLink !== undefined ? brknnextLink.split('=') : undefined
+        brknnextName = Number(brknnext.filter((lk,idx) => idx === brknnext.length -1))
+      }
+
+      return (
+        this.setState({
+          headerLinks: {prevLink: link.prev,nextLink: link.next,lastLink: link.last,
+            prevName: brknprevName,nextName: brknnextName,lastName: brknlastName,
+          }
+        })
+      )
+    }
+  }
+
+  handlePagination = async (direction) => {
+    const {headerLinks:{nextLink,prevLink}} = this.state
+    const whichPage = (direction === 'next') ? nextLink : prevLink
+    let pageData = await GitAPI_searchNextPrevPage(whichPage)
+    let pageItems = pageData.items
+    let pageLinks = pageData.headerLinks
+    if(pageLinks !== undefined) { //update gitSearch state
+      this.updateGitList(pageItems)
+      this.updatePage(direction)
+      this.getHeaderLinks(pageLinks)
+    }
+  }
+
+  updatePage = (dir) => {
+    const {headerLinks:{lastName,nextName,prevName}} = this.state
+    let isPage = (dir === 'next') ? nextName : prevName
+    this.setState({
+      totalPages: lastName,
+      page: isPage,
+    })
+  }
 
 
+  updateGitList = (filtered) => (
+    this.setState({
+      gitSearch:{items: filtered},
+      totalPages: this.state.headerLinks.lastName,
+      page: 1,
+    })
+  )
+
+  getUserRepos = async (usr) => {//debugger
+    let reps = []
+    let repos = await GitApi_userRepos(usr)
+    if(repos !== undefined) {
+      this.getHeaderLinks(repos.headerLinks)
+      console.log(repos)
+      repos.filter(itm => itm !== itm.headerLinks ? reps.push(itm) : false)
+
+      this.setState({
+        gitSingle: {
+          name: usr,
+          type: 'user',
+          repos: {
+            items: reps,
+          },
+        },
+        loading: false,
+        page: 1,
+        pageName: undefined,
+        totalPages: 0,
+      })
+    }
+  }
 
   render() {
+    console.log(this)
 
-    window.appendData = data => {
-      console.log(data)
-    }
-
-    const {user,gitSingle:{repos:{items}},loading} = this.state
+    const {user,gitSingle:{name,type,repos:{items}},
+      loading,page,pageName,totalPages} = this.state
 
     return (
       <>
@@ -107,11 +152,11 @@ class GitUser extends Component {
                     <div className='gituser__left'></div>
                     <div className='gituser__intro'>
                       <h1>
-                        GitHub {user.type || 'User'}
+                        GitHub {type || 'User'}
                       </h1>
                       <div className='gituser__info'>
-                        <h3><span>Username:</span> {user.name}</h3>
-                        <h3><span>Location:</span> {(user.location) ?
+                        <h3><span>Username:</span> {name}</h3>
+                        <h3><span>Location:</span> {(items[0].owner.login) ?
                           user.location :
                           'Not Available'}</h3>
                         <h3>
@@ -163,19 +208,14 @@ class GitUser extends Component {
                       </table>
                     </div>
 
-                    <div className='gituser__pagination'>
-                      <div className='pagination__wrapper'>
-                        <Link to='' className='gp--page'>&laquo;</Link>
-                        <Link to='' className='gp--active'>1</Link>
-                        <Link to='' className='gp--page'>2</Link>
-                        <Link to='' className='gp--page'>3</Link>
-                        <Link to='' className='gp--page'>4</Link>
-                        <Link to='' className='gp--page'>5</Link>
-                        <Link to='' className='gp--page'>6</Link>
-                        <Link to='' className='gp--page'>&raquo;</Link>
-                      </div>
-                    </div>
-
+                    {
+                      !!items &&
+                      <Pagination
+                        page={page}
+                        handlePagination={this.handlePagination}
+                        totalPages={totalPages}
+                      />
+                    }
 
                   </div>
                 </section>

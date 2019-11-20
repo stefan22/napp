@@ -13,18 +13,39 @@ export const GitAPI_searchUserRepos = async (name) => {
   const userReposUrl = `
   ${url}/search/users?q=${name}+repos:>1+in:login+type:user&per_page=28
   `
-  const response = await fetch(userReposUrl, {
+  let response = await fetch(userReposUrl, {
     'method': 'GET',
     'headers': headers
   })
   if(response.headers.get('link') !== null) {
     let links = parseHeaderLink(response.headers.get('link'))
     let result = await response.json()
-    console.log('result ',result)
     result.headerLinks = links
     return result
   }
 }
+
+
+//get user repos/ owner info
+export const GitApi_userRepos = async (user) => {
+  let repos = `${url}/users/${user}/repos`
+  let response = await fetch(repos, {
+    'method': 'GET',
+    'headers': headers
+  })
+  if(response.headers.get('link') !== null) {
+    let links = parseHeaderLink(response.headers.get('link'))
+    let result = await response.json()
+    result.headerLinks = links
+    console.log(result)
+    return result
+  }
+}
+
+
+
+
+
 
 //git search user repos next page
 export const GitAPI_searchNextPrevPage = async (nxt) => {
@@ -39,6 +60,9 @@ export const GitAPI_searchNextPrevPage = async (nxt) => {
     return result
   }
 }
+
+
+
 
 
 

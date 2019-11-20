@@ -244,10 +244,15 @@ header {
         padding: 8px 16px;
         line-height: 1.5;
       }
-      &:hover:not(.gp--active) {
+      &:hover:not(.gp--active),&:hover:not(disabled) {
         background-color: #e5e5e5;
         border: 1px solid #dedede;
       }
+    }
+    button[disabled] {
+      cursor: initial;
+      background-color: inherit;
+      visibility: hidden;
     }
     .tally {
       background-color: #619d9b;

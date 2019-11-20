@@ -29,11 +29,11 @@ class Dashboard extends Component {
   }
 
   getHeaderLinks = link => {
-    let brknprevName,brknlastName,brknnextName
+    let brknprevName,brknlastName,brknnextName,brknprevLink,brknprev
     if(typeof link === 'object') {
       if(link.prev !== undefined) {
-        let brknprevLink = link.prev//links
-        let brknprev = brknprevLink !== undefined ? brknprevLink.split('=') : undefined
+        brknprevLink = link.prev//links
+        brknprev = brknprevLink !== undefined ? brknprevLink.split('=') : undefined
         brknprevName = Number(brknprev.filter((lk,idx) => idx === brknprev.length -1))
       }
       if (link.last !== undefined) {
@@ -46,11 +46,14 @@ class Dashboard extends Component {
         let brknnext = brknnextLink !== undefined ? brknnextLink.split('=') : undefined
         brknnextName = Number(brknnext.filter((lk,idx) => idx === brknnext.length -1))
       }
-      this.setState({
-        headerLinks: {prevLink: link.prev,nextLink: link.next,lastLink: link.last,
-          prevName: brknprevName,nextName: brknnextName,lastName: brknlastName,
-        }
-      })
+
+      return (
+        this.setState({
+          headerLinks: {prevLink: link.prev,nextLink: link.next,lastLink: link.last,
+            prevName: brknprevName,nextName: brknnextName,lastName: brknlastName,
+          }
+        })
+      )
     }
   }
 
@@ -92,7 +95,6 @@ class Dashboard extends Component {
   fetchGitData = async (usr,param='User') => {
     let filres = []
     let response = await GitAPI_searchUserRepos(usr,param)
-    console.log(response)
     if(response !== undefined) {
       //search results
       this.getHeaderLinks(response.headerLinks)
@@ -115,7 +117,7 @@ class Dashboard extends Component {
 
 
   render() {
-    console.log(this)
+    //console.log(this)
     const {gitSearch:{items},page,totalPages,message} = this.state
     return (
       <>
