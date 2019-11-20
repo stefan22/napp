@@ -8,34 +8,26 @@ const headers = {//search users
   'Authorization' : `Token ${token}`
 }
 
-/*
-   git search user repos
-   => at least 1repo & matches login id
-*/
+//git search user repos: at least 1repo & matches login id
 export const GitAPI_searchUserRepos = async (name) => {
   const userReposUrl = `
-  ${url}/search/users?q=${name}+repos:>1+in:login+type:user
+  ${url}/search/users?q=${name}+repos:>1+in:login+type:user&per_page=28
   `
   const response = await fetch(userReposUrl, {
     'method': 'GET',
     'headers': headers
   })
-
   if(response.headers.get('link') !== null) {
     let links = parseHeaderLink(response.headers.get('link'))
     let result = await response.json()
+    console.log('result ',result)
     result.headerLinks = links
-    console.log(result)
     return result
   }
+}
 
-}//GitApiRepos
-
-
-/*
-   git search user repos next page
-*/
-export const GitAPI_searchNextPage = async (nxt) => {
+//git search user repos next page
+export const GitAPI_searchNextPrevPage = async (nxt) => {
   const response = await fetch(nxt, {
     'method': 'GET',
     'headers': headers
@@ -46,7 +38,7 @@ export const GitAPI_searchNextPage = async (nxt) => {
     result.headerLinks = links
     return result
   }
-}//GitApiRepos
+}
 
 
 

@@ -1,18 +1,24 @@
 import React, {Component} from 'react'
-import Pagination from './Pagination'
+//layout
 import Header from './layout/Header'
 import Footer from './layout/Footer'
-import List from './helpers/List'
-import '../scss/components/gitlist.scss'
+//comps
+import Pagination from './Pagination'
 import GitUsersList from './GitUsersList'
-import {GitAPI_searchUserRepos,GitAPI_searchNextPage} from './helpers/GitApi'
+//helpers
+import {GitAPI_searchUserRepos,GitAPI_searchNextPrevPage} from './helpers/GitApi'
+import List from './helpers/List'
+//styles
+import '../scss/components/gitlist.scss'
 
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      gitSearch: {},
+      gitSearch: {
+        items: 0,
+      },
       page: 1,
       pageName: undefined,
       totalPages: 0,
@@ -51,7 +57,7 @@ class Dashboard extends Component {
   handlePagination = async (direction) => {
     const {headerLinks:{nextLink,prevLink}} = this.state
     const whichPage = (direction === 'next') ? nextLink : prevLink
-    let pageData = await GitAPI_searchNextPage(whichPage)
+    let pageData = await GitAPI_searchNextPrevPage(whichPage)
     let pageItems = pageData.items
     let pageLinks = pageData.headerLinks
     if(pageLinks !== undefined) { //update gitSearch state
@@ -75,6 +81,7 @@ class Dashboard extends Component {
     this.setState({
       gitSearch:{items: filtered},
       totalPages: this.state.headerLinks.lastName,
+      page: 1,
     })
   )
 
@@ -85,20 +92,31 @@ class Dashboard extends Component {
   fetchGitData = async (usr,param='User') => {
     let filres = []
     let response = await GitAPI_searchUserRepos(usr,param)
-    this.getHeaderLinks(response.headerLinks)
-    //search results
+    console.log(response)
     if(response !== undefined) {
+      //search results
+      this.getHeaderLinks(response.headerLinks)
       response.items.filter(itm =>  //filtered out types
         this.checkRenderType(itm,param) ? filres.push(itm) : false
       )
       //update gitSearch state
       this.updateGitList(filres)
     }
+    else {
+      console.log('No search results match criteria')
+      this.setState({
+        message: 'No Results found',
+        gitSearch: {
+          items: 0,
+        },
+      })
+    }
   }
 
 
   render() {
-    const {gitSearch:{items},page,totalPages} = this.state
+    console.log(this)
+    const {gitSearch:{items},page,totalPages,message} = this.state
     return (
       <>
         <Header
@@ -110,6 +128,10 @@ class Dashboard extends Component {
             <div className='maincenter'>
               <div className='gitinner'>
                 <div className='git-row'>
+                  {
+                    items === 0 &&
+                      <h3>{message}</h3>
+                  }
                   {
                     !!items &&
                     <List
