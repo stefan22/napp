@@ -16,58 +16,35 @@ class Dashboard extends Component {
       page: 1,
       pageName: undefined,
       totalPages: 0,
-      headerLinks: {
-        lastLink: '',
-        nextLink: '',
-        lastName: '',
-        nextName: '',
-        prevName: '',
-
+      headerLinks: { prevLink: '', lastLink: '',
+        nextLink: '', lastName: '', nextName: '', prevName: '',
       }
     }
   }
 
   getHeaderLinks = link => {
     let brknprevName,brknlastName,brknnextName
-
     if(typeof link === 'object') {
-      //links
-      let brknprevLink = link.prev || undefined
-      let brknlastLink = link.last || undefined
-      let brknnextLink = link.next || undefined
-
-      let brknprev = brknprevLink !== undefined ? brknprevLink.split('=') : undefined
-      let brknlast = brknlastLink.split('=')
-      let brknnext = brknnextLink.split('=')
-      //names
-      if(brknprev !== undefined) {
+      if(link.prev !== undefined) {
+        let brknprevLink = link.prev//links
+        let brknprev = brknprevLink !== undefined ? brknprevLink.split('=') : undefined
         brknprevName = Number(brknprev.filter((lk,idx) => idx === brknprev.length -1))
       }
-      if (brknlast !== undefined) {
+      if (link.last !== undefined) {
+        let brknlastLink = link.last
+        let brknlast = brknlastLink !== undefined ? brknlastLink.split('=') : undefined
         brknlastName = Number(brknlast.filter((lk,idx) => idx === brknlast.length -1))
       }
-      if(brknnext !== undefined) {
+      if(link.next !== undefined) {
+        let brknnextLink = link.next
+        let brknnext = brknnextLink !== undefined ? brknnextLink.split('=') : undefined
         brknnextName = Number(brknnext.filter((lk,idx) => idx === brknnext.length -1))
       }
-
-      this.setState(prevState => ({
-        headerLinks: {
-          prevLink: (brknprevLink !== prevState.headerLinks.prevLink) ?
-            brknprevLink : prevState.headerLinks.prevLink,
-          nextLink: (brknnextLink !== prevState.headerLinks.nextLink) ?
-            brknnextLink : prevState.headerLinks.nextLink,
-          lastLink: (brknlastLink !== prevState.headerLinks.lastLink) ?
-            brknlastLink : prevState.headerLinks.lastLink,
-
-          prevName: (brknprevName !== prevState.headerLinks.prevName) ?
-            brknprevName : prevState.headerLinks.prevName,
-          nextName: (brknnextName !== prevState.headerLinks.nextName) ?
-            brknnextName : prevState.headerLinks.nextName,
-          lastName: (brknlastName !== prevState.headerLinks.lastName) ?
-            brknlastName : prevState.headerLinks.lastName,
-
+      this.setState({
+        headerLinks: {prevLink: link.prev,nextLink: link.next,lastLink: link.last,
+          prevName: brknprevName,nextName: brknnextName,lastName: brknlastName,
         }
-      }))
+      })
     }
   }
 
