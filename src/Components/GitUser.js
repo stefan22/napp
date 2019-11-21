@@ -34,9 +34,9 @@ class GitUser extends Component {
     const {login} = this.props.history.location
     console.log(login)
     this.getUserRepos(login)
-    // fetch(`${url}/users/${login}`)
-    //   .then(usr => usr.json())
-    //   .then(user => this.setState({user}))
+    fetch(`${url}/users/${login}`)
+      .then(usr => usr.json())
+      .then(user => this.setState({user}))
   }
 
   getHeaderLinks = link => {
