@@ -26,5 +26,6 @@ module.exports = {
       "quotes": ["error", "single"],
       "no-mixed-spaces-and-tabs": 0,
       "no-unexpected-multiline": 0,
+      "no-prototype-builtins": 0,
     }
 };

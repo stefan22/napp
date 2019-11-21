@@ -1,7 +1,7 @@
 import {parseHeaderLink} from './parseHeaderLink'
 import token from './token'
 
-const url = 'https://api.github.com'
+export const url = 'https://api.github.com'
 
 const headers = {//search users
   'Accept' : 'application/vnd.github.v3.text-match+json',
@@ -25,18 +25,28 @@ export const GitAPI_searchUserRepos = async (name) => {
   }
 }
 
+const headers_repos = {//user repos
+  'Accept' : 'application/json',
+  'Authorization' : `Token ${token}`
+}
 
 //get user repos/ owner info
 export const GitApi_userRepos = async (user) => {
   let repos = `${url}/users/${user}/repos`
   let response = await fetch(repos, {
     'method': 'GET',
-    'headers': headers
+    'headers': headers_repos
   })
+
   if(response.headers.get('link') !== null) {
     let links = parseHeaderLink(response.headers.get('link'))
     let result = await response.json()
     result.headerLinks = links
+    console.log(result)
+    return result
+  }
+  else {
+    let result = await response.json()
     console.log(result)
     return result
   }

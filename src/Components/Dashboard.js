@@ -20,7 +20,7 @@ class Dashboard extends Component {
         items: 0,
       },
       page: 1,
-      pageName: undefined,
+      // pageName: undefined,
       totalPages: 0,
       headerLinks: { prevLink: '', lastLink: '',
         nextLink: '', lastName: '', nextName: '', prevName: '',
@@ -117,7 +117,7 @@ class Dashboard extends Component {
 
 
   render() {
-    //console.log(this)
+    console.log(this)
     const {gitSearch:{items},page,totalPages,message} = this.state
     return (
       <>

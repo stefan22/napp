@@ -4,7 +4,7 @@ import Pagination from './Pagination'
 import List from './helpers/List'
 import ReposTable from './ReposTable'
 import Footer from '../Components/layout/Footer'
-import {GitApi_userRepos,GitAPI_searchNextPrevPage} from './helpers/GitApi'
+import {GitApi_userRepos,GitAPI_searchNextPrevPage,url} from './helpers/GitApi'
 import logo__white from '../images/logo-one-try__white.png'
 import '../scss/components/gituser.scss'
 import loadingBall from '../images/ball.gif'
@@ -16,21 +16,27 @@ class GitUser extends Component {
     this.state = {
       user: {},
       gitSingle: {
-        name: '',
         repos: {
-          items: []
+          items: 0
         },
       },
       totalPages: 0,
       page: 1,
       loading: true,
+      headerLinks: { prevLink: '', lastLink: '',
+        nextLink: '', lastName: '', nextName: '', prevName: '',
+      }
     }
   }
 
 
   componentDidMount() {
     const {login} = this.props.history.location
+    console.log(login)
     this.getUserRepos(login)
+    // fetch(`${url}/users/${login}`)
+    //   .then(usr => usr.json())
+    //   .then(user => this.setState({user}))
   }
 
   getHeaderLinks = link => {
@@ -43,6 +49,8 @@ class GitUser extends Component {
       }
       if (link.last !== undefined) {
         let brknlastLink = link.last
+        console.log('=>  ',brknlastLink)
+
         let brknlast = brknlastLink !== undefined ? brknlastLink.split('=') : undefined
         brknlastName = Number(brknlast.filter((lk,idx) => idx === brknlast.length -1))
       }
@@ -69,8 +77,8 @@ class GitUser extends Component {
     let pageItems = pageData.items
     let pageLinks = pageData.headerLinks
     if(pageLinks !== undefined) { //update gitSearch state
-      this.updateGitList(pageItems)
       this.updatePage(direction)
+      this.updateGitList(pageItems)
       this.getHeaderLinks(pageLinks)
     }
   }
@@ -87,32 +95,39 @@ class GitUser extends Component {
 
   updateGitList = (filtered) => (
     this.setState({
-      gitSearch:{items: filtered},
-      totalPages: this.state.headerLinks.lastName,
-      page: 1,
+      gitSingle:{
+        repos: {
+          items: filtered
+        }
+      },
     })
   )
 
   getUserRepos = async (usr) => {//debugger
+    console.log(usr)
     let reps = []
     let repos = await GitApi_userRepos(usr)
+    console.log(repos)
+
+
     if(repos !== undefined) {
-      this.getHeaderLinks(repos.headerLinks)
+      // if(repos.length === 28) {
+      //   console.log(repos.length)
+      //   this.getHeaderLinks(repos.headerLinks)
+      // }
       console.log(repos)
       repos.filter(itm => itm !== itm.headerLinks ? reps.push(itm) : false)
-
+      console.log(reps)
       this.setState({
         gitSingle: {
-          name: usr,
           type: 'user',
           repos: {
             items: reps,
           },
         },
         loading: false,
+        totalPages: this.state.headerLinks.lastName,
         page: 1,
-        pageName: undefined,
-        totalPages: 0,
       })
     }
   }
@@ -120,8 +135,12 @@ class GitUser extends Component {
   render() {
     console.log(this)
 
-    const {user,gitSingle:{name,type,repos:{items}},
-      loading,page,pageName,totalPages} = this.state
+    const {
+      user,
+      gitSingle:{repos:{items}},
+      loading,page,totalPages} = this.state
+
+    console.log(totalPages,items)
 
     return (
       <>
@@ -152,11 +171,11 @@ class GitUser extends Component {
                     <div className='gituser__left'></div>
                     <div className='gituser__intro'>
                       <h1>
-                        GitHub {type || 'User'}
+                        GitHub {user.type || 'User'}
                       </h1>
                       <div className='gituser__info'>
-                        <h3><span>Username:</span> {name}</h3>
-                        <h3><span>Location:</span> {(items[0].owner.login) ?
+                        <h3><span>Username:</span> {user.name}</h3>
+                        <h3><span>Location:</span> {(user.login) ?
                           user.location :
                           'Not Available'}</h3>
                         <h3>
