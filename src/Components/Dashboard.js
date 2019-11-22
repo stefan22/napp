@@ -99,7 +99,7 @@ class Dashboard extends Component {
 
   render() {
     console.log(this)
-    const {gitSearch:{items},page,totalPages,message} = this.state
+    const {gitSearch:{items},headerLinks:{lastName},page,totalPages,message} = this.state
     return (
       <>
         <Header
@@ -131,6 +131,7 @@ class Dashboard extends Component {
           !!items &&
           <Pagination
             page={page}
+            lastName={lastName}
             handlePagination={this.handlePagination}
             totalPages={totalPages}
           />

@@ -1,10 +1,15 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
+//comps
 import Pagination from './Pagination'
-import List from './helpers/List'
 import ReposTable from './ReposTable'
+//layout
 import Footer from '../Components/layout/Footer'
+//helpers
+import List from './helpers/List'
 import {GitApi_userRepos,GitAPI_searchNextPrevPage,url} from './helpers/GitApi'
+import getHeaderLinks from './helpers/getHeaderLinks'
+//styles
 import logo__white from '../images/logo-one-try__white.png'
 import '../scss/components/gituser.scss'
 import loadingBall from '../images/ball.gif'
@@ -16,131 +21,91 @@ class GitUser extends Component {
     this.state = {
       user: {},
       gitSingle: {
+        type: '',
         repos: {
           items: 0
         },
       },
-      totalPages: 0,
       page: 1,
-      loading: true,
+      totalPages: 0,
       headerLinks: { prevLink: '', lastLink: '',
         nextLink: '', lastName: '', nextName: '', prevName: '',
-      }
+      },
+      loading: true,
     }
   }
 
 
   componentDidMount() {
     const {login} = this.props.history.location
-    console.log(login)
     this.getUserRepos(login)
     fetch(`${url}/users/${login}`)
       .then(usr => usr.json())
       .then(user => this.setState({user}))
   }
 
-  getHeaderLinks = link => {
-    let brknprevName,brknlastName,brknnextName,brknprevLink,brknprev
-    if(typeof link === 'object') {
-      if(link.prev !== undefined) {
-        brknprevLink = link.prev//links
-        brknprev = brknprevLink !== undefined ? brknprevLink.split('=') : undefined
-        brknprevName = Number(brknprev.filter((lk,idx) => idx === brknprev.length -1))
-      }
-      if (link.last !== undefined) {
-        let brknlastLink = link.last
-        console.log('=>  ',brknlastLink)
-
-        let brknlast = brknlastLink !== undefined ? brknlastLink.split('=') : undefined
-        brknlastName = Number(brknlast.filter((lk,idx) => idx === brknlast.length -1))
-      }
-      if(link.next !== undefined) {
-        let brknnextLink = link.next
-        let brknnext = brknnextLink !== undefined ? brknnextLink.split('=') : undefined
-        brknnextName = Number(brknnext.filter((lk,idx) => idx === brknnext.length -1))
-      }
-
-      return (
-        this.setState({
-          headerLinks: {prevLink: link.prev,nextLink: link.next,lastLink: link.last,
-            prevName: brknprevName,nextName: brknnextName,lastName: brknlastName,
-          }
-        })
-      )
-    }
+  handleHeaderLinks = (response) => {
+    let headers = getHeaderLinks(response.headerLinks)
+    const {lastLink,nextLink,prevLink,lastName,nextName,prevName} = headers
+    return (
+      this.setState({headerLinks: {
+        lastLink,nextLink,prevLink,prevName,nextName,lastName,
+      }})
+    )
   }
 
-  handlePagination = async (direction) => {
-    const {headerLinks:{nextLink,prevLink}} = this.state
-    const whichPage = (direction === 'next') ? nextLink : prevLink
-    let pageData = await GitAPI_searchNextPrevPage(whichPage)
-    let pageItems = pageData.items
-    let pageLinks = pageData.headerLinks
-    if(pageLinks !== undefined) { //update gitSearch state
-      this.updatePage(direction)
-      this.updateGitList(pageItems)
-      this.getHeaderLinks(pageLinks)
-    }
-  }
-
-  updatePage = (dir) => {
-    const {headerLinks:{lastName,nextName,prevName}} = this.state
-    let isPage = (dir === 'next') ? nextName : prevName
-    this.setState({
-      totalPages: lastName,
-      page: isPage,
-    })
-  }
-
+   updatePage = (dir) => {
+     const {headerLinks:{lastName,nextName,prevName}} = this.state
+     let isPage = (dir === 'next') ? nextName : prevName
+     this.setState({
+       totalPages: lastName,
+       page: isPage,
+     })
+   }
 
   updateGitList = (filtered) => (
     this.setState({
       gitSingle:{
+        type: 'user',
         repos: {
           items: filtered
         }
       },
+      totalPages: this.state.headerLinks.lastName,
+      loading: false,
     })
   )
 
-  getUserRepos = async (usr) => {//debugger
-    console.log(usr)
+  handlePagination = async (direction) => {
+    const {headerLinks:{nextLink,prevLink}} = this.state
+    const whichPage = (direction === 'next') ? nextLink : prevLink
+    this.setState({loading: true})
+    let pageData = await GitAPI_searchNextPrevPage(whichPage)
+    let pageItems = pageData.filter(itm => itm !== pageData.headerLinks )
+    let pageLinks = pageData.headerLinks
+    if(pageLinks !== undefined) { //update gitRepos state
+      this.updatePage(direction)
+      this.updateGitList(pageItems)
+      this.handleHeaderLinks(pageData)
+    }
+  }
+
+  getUserRepos = async (usr) => {
     let reps = []
     let repos = await GitApi_userRepos(usr)
-    console.log(repos)
-
-
     if(repos !== undefined) {
-      // if(repos.length === 28) {
-      //   console.log(repos.length)
-      //   this.getHeaderLinks(repos.headerLinks)
-      // }
-      console.log(repos)
+      this.handleHeaderLinks(repos)
       repos.filter(itm => itm !== itm.headerLinks ? reps.push(itm) : false)
-      console.log(reps)
-      this.setState({
-        gitSingle: {
-          type: 'user',
-          repos: {
-            items: reps,
-          },
-        },
-        loading: false,
-        totalPages: this.state.headerLinks.lastName,
-        page: 1,
-      })
+      //update gitRepos state
+      this.updateGitList(reps)
     }
   }
 
   render() {
     console.log(this)
-
     const {
       user,
-      gitSingle:{repos:{items}},
-      loading,page,totalPages} = this.state
-
-    console.log(totalPages,items)
+      gitSingle:{repos:{items}},headerLinks:{lastName},loading,page,totalPages} = this.state
 
     return (
       <>
@@ -231,6 +196,7 @@ class GitUser extends Component {
                       !!items &&
                       <Pagination
                         page={page}
+                        lastPage={lastName}
                         handlePagination={this.handlePagination}
                         totalPages={totalPages}
                       />

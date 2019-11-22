@@ -1,20 +1,19 @@
 import React from 'react'
 
 
-const Pagination = ({page,totalPages,handlePagination}) => (
+const Pagination = ({page,totalPages,handlePagination,lastPage}) => (
 
   <div className='gituser__pagination'>
     <div className='pagination__wrapper'>
       <button
         disabled={page <= 1}
         onClick={() => handlePagination('prev')}
-        to=''
         className='gp--arrow'>&laquo;
       </button>
 
       <span
         className='gp-page tally'>
-        page <b>{page}</b> of <b>{totalPages}</b>
+        page <b>{page}</b> of <b>{totalPages || lastPage}</b>
       </span>
 
       <button
