@@ -6,7 +6,7 @@ import Footer from './layout/Footer'
 import Pagination from './Pagination'
 import GitUsersList from './GitUsersList'
 //helpers
-import {GitAPI_searchUserRepos,GitAPI_searchNextPrevPage} from './helpers/GitApi'
+import {GitAPI_searchUser,GitAPI_searchNextPrevPage,GitAPI_searchPage} from './helpers/GitApi'
 import getHeaderLinks from './helpers/getHeaderLinks'
 import List from './helpers/List'
 //styles
@@ -42,8 +42,15 @@ class Dashboard extends Component {
 
   updatePage = (dir) => {
     const {headerLinks:{lastName,nextName,prevName}} = this.state
+    if(typeof dir === 'number') {//updt pg num
+      this.setState({
+        totalPages: lastName,
+        page: dir,
+      })
+      return true
+    }
     let isPage = (dir === 'next') ? nextName : prevName
-    this.setState({
+    this.setState({//updt nx/prv pg
       totalPages: lastName,
       page: isPage,
     })
@@ -75,6 +82,7 @@ class Dashboard extends Component {
 
   handlePagination = async (direction) => {
     const {headerLinks:{nextLink,prevLink}} = this.state
+    console.log('next link: ',nextLink, ' prev link ', prevLink)
     const whichPage = (direction === 'next') ? nextLink : prevLink
     let pageData = await GitAPI_searchNextPrevPage(whichPage)
     let pageItems = pageData.items
@@ -86,9 +94,23 @@ class Dashboard extends Component {
     }
   }
 
+  fetchPageData = async (pg) => {
+    let handle = this.state.headerLinks.lastLink
+    let rem = handle.indexOf('page=28')
+    handle = handle.slice(0, rem + 13)
+    let pageData = await GitAPI_searchPage(handle,pg)
+    let pageItems = pageData.items
+    let pageLinks = pageData.headerLinks
+    if(pageLinks !== undefined) { //update gitSearch state
+      this.updateGitList(pageItems)
+      this.updatePage(pg)
+      this.handleHeaderLinks(pageData)
+    }
+  }
+
   fetchGitData = async (usr,param='User') => {
     let filres = []
-    let response = await GitAPI_searchUserRepos(usr,param)
+    let response = await GitAPI_searchUser(usr,param)
     if(response !== undefined) {
       //search results
       this.handleHeaderLinks(response)
@@ -111,8 +133,13 @@ class Dashboard extends Component {
 
 
   render() {
-    // console.log(this)
-    const {gitSearch:{items},headerLinks:{lastName},page,totalPages,message,results} = this.state
+    //console.log(this)
+    const {
+      gitSearch:{items},
+      headerLinks:{lastName},
+      page,totalPages,message,results
+    } = this.state
+
     return (
       <>
         <Header
@@ -148,6 +175,7 @@ class Dashboard extends Component {
             page={page}
             lastName={lastName}
             handlePagination={this.handlePagination}
+            fetchPageData={this.fetchPageData}
             totalPages={totalPages}
           />
         }

@@ -101,7 +101,6 @@ class GitUser extends Component {
     let repos = await GitApi_userRepos(usr)
     if(repos !== undefined) {
       this.handleHeaderLinks(repos)
-      // console.log('repos: ',repos)
       repos.filter(itm => itm !== itm.headerLinks ? reps.push(itm) : false)
       //update gitRepos state
       this.updateGitList(reps)

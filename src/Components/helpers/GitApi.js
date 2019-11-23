@@ -8,8 +8,13 @@ const headers = {//search users
   'Authorization' : `Token ${token}`
 }
 
-//git search user repos: at least 1repo & matches login id
-export const GitAPI_searchUserRepos = async (name) => {
+const headers_repos = {//user repos
+  'Accept' : 'application/json',
+  'Authorization' : `Token ${token}`
+}
+
+//git search user: at least 1repo & matches login
+export const GitAPI_searchUser = async (name) => {
   const userReposUrl = `
   ${url}/search/users?q=${name}+repos:>1+in:login+type:user&per_page=28
   `
@@ -25,12 +30,7 @@ export const GitAPI_searchUserRepos = async (name) => {
   }
 }
 
-const headers_repos = {//user repos
-  'Accept' : 'application/json',
-  'Authorization' : `Token ${token}`
-}
-
-//get user repos/ owner info
+//git user repos/ owner info
 export const GitApi_userRepos = async (user) => {
   let repos = `${url}/users/${user}/repos`
   let response = await fetch(repos, {
@@ -52,12 +52,7 @@ export const GitApi_userRepos = async (user) => {
   }
 }
 
-
-
-
-
-
-//git search user repos next page
+//git search user next page
 export const GitAPI_searchNextPrevPage = async (nxt) => {
   const response = await fetch(nxt, {
     'method': 'GET',
@@ -71,43 +66,19 @@ export const GitAPI_searchNextPrevPage = async (nxt) => {
   }
 }
 
+//git search usr page num
+export const GitAPI_searchPage = async (url,pg) => {
+  const response = await fetch(url+pg, {
+    'method': 'GET',
+    'headers': headers
+  })
+  if(response.headers.get('link') !== null) {
+    let links = parseHeaderLink(response.headers.get('link'))
+    let result = await response.json()
+    result.headerLinks = links
+    return result
+  }
+}
 
-
-
-
-
-
-
-
-
-
-// //search all by users/org
-// export const GitApiSearcAll = (name,type) => (
-//   `https://api.github.com/search/users?access_token=${token}&q=${name}&type=${type}`
-// )
-
-
-//get user stats
-// export const GitApiUserStats = user => (
-//   `https://api.github.com/users/${user}?access_token=${token}`
-// )
-
-
-// //get org/user repos
-// export const GitApiRepos = (name,param) => (
-//   `https://api.github.com/${(param === 'User') ?
-//     'users' : 'orgs'}/${name}/repos?access_token=${token}
-//     `
-// )
-
-//get org/user repos url
-// export const GitApiReposUrl = (name,param) => {
-//   return (
-//     `
-//   https://api.github.com/${(param === 'User') ?
-//       'users' : 'orgs'}/${name}/repos?access_token=${token}&callback=callback
-//     `
-//   )
-// }
 
 
