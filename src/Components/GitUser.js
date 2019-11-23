@@ -7,7 +7,7 @@ import ReposTable from './ReposTable'
 import Footer from '../Components/layout/Footer'
 //helpers
 import List from './helpers/List'
-import {GitApi_userRepos,GitAPI_searchNextPrevPage,url} from './helpers/GitApi'
+import {GitApi_userRepos,GitAPI_searchNextPrevPage,url,GitAPI_searchPage,GitAPI_reposPage} from './helpers/GitApi'
 import getHeaderLinks from './helpers/getHeaderLinks'
 //styles
 import logo__white from '../images/logo-one-try__white.png'
@@ -62,6 +62,13 @@ class GitUser extends Component {
 
    updatePage = (dir) => {
      const {headerLinks:{lastName,nextName,prevName}} = this.state
+     if(typeof dir === 'number') {//updt pg num
+       this.setState({
+         totalPages: lastName || prevName + 1,
+         page: dir || prevName,
+       })
+       return true
+     }
      let isPage = (dir === 'next') ? nextName : prevName
      this.setState({
        totalPages: lastName,
@@ -96,6 +103,21 @@ class GitUser extends Component {
     }
   }
 
+  fetchPageData = async (pg) => {
+    let handle = this.state.headerLinks.lastLink  || this.state.headerLinks.prevLink
+    let rem = handle.indexOf('page=')
+    handle = handle.slice(0,rem+5)
+    this.setState({loading: true})
+    let pageData = await GitAPI_reposPage(handle,pg)
+    let pageItems = pageData
+    let pageLinks = pageData.headerLinks
+    if(pageLinks !== undefined) { //update gitSearch state
+      this.updateGitList(pageItems)
+      this.updatePage(pg)
+      this.handleHeaderLinks(pageData)
+    }
+  }
+
   getUserRepos = async (usr) => {
     let reps = []
     let repos = await GitApi_userRepos(usr)
@@ -108,7 +130,7 @@ class GitUser extends Component {
   }
 
   render() {
-    // console.log(this)
+    //console.log(this)
     const {
       user,
       gitSingle:{repos:{items}},headerLinks:{lastName},loading,page,totalPages} = this.state
@@ -116,7 +138,6 @@ class GitUser extends Component {
     return (
       <>
         {
-
           (loading) ?
 
             <div className='gituser__loading'>
@@ -167,7 +188,6 @@ class GitUser extends Component {
                       </div>
                     </div>
 
-
                   </div>
                   <div className='repos'>
                     <h2>Repo Court</h2>
@@ -202,8 +222,9 @@ class GitUser extends Component {
                       !!items &&
                       <Pagination
                         page={page}
-                        lastPage={lastName}
+                        lastName={lastName}
                         handlePagination={this.handlePagination}
+                        fetchPageData={this.fetchPageData}
                         totalPages={totalPages}
                       />
                     }

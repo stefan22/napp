@@ -13,5 +13,4 @@ export const missingNums = (a) => {
   }
   //missing
   return missing
-
 }

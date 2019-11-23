@@ -44,7 +44,7 @@ class Dashboard extends Component {
     const {headerLinks:{lastName,nextName,prevName}} = this.state
     if(typeof dir === 'number') {//updt pg num
       this.setState({
-        totalPages: lastName,
+        totalPages: lastName || prevName + 1,
         page: dir,
       })
       return true
@@ -82,7 +82,6 @@ class Dashboard extends Component {
 
   handlePagination = async (direction) => {
     const {headerLinks:{nextLink,prevLink}} = this.state
-    console.log('next link: ',nextLink, ' prev link ', prevLink)
     const whichPage = (direction === 'next') ? nextLink : prevLink
     let pageData = await GitAPI_searchNextPrevPage(whichPage)
     let pageItems = pageData.items
@@ -95,7 +94,7 @@ class Dashboard extends Component {
   }
 
   fetchPageData = async (pg) => {
-    let handle = this.state.headerLinks.lastLink
+    let handle = this.state.headerLinks.lastLink || this.state.headerLinks.prevLink
     let rem = handle.indexOf('page=28')
     handle = handle.slice(0, rem + 13)
     let pageData = await GitAPI_searchPage(handle,pg)

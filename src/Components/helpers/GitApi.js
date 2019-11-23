@@ -37,17 +37,14 @@ export const GitApi_userRepos = async (user) => {
     'method': 'GET',
     'headers': headers_repos
   })
-
   if(response.headers.get('link') !== null) {
     let links = parseHeaderLink(response.headers.get('link'))
     let result = await response.json()
     result.headerLinks = links
-    console.log(result)
     return result
   }
   else {
     let result = await response.json()
-    console.log(result)
     return result
   }
 }
@@ -76,6 +73,25 @@ export const GitAPI_searchPage = async (url,pg) => {
     let links = parseHeaderLink(response.headers.get('link'))
     let result = await response.json()
     result.headerLinks = links
+    return result
+  }
+}
+
+//git usr repos page num
+export const GitAPI_reposPage = async (url,pg) => {
+  let repos = `${url}${pg}`
+  const response = await fetch(repos, {
+    'method': 'GET',
+    'headers': headers_repos
+  })
+  if(response.headers.get('link') !== null) {
+    let links = parseHeaderLink(response.headers.get('link'))
+    let result = await response.json()
+    result.headerLinks = links
+    return result
+  }
+  else {
+    let result = await response.json()
     return result
   }
 }

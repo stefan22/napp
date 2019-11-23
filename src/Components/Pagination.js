@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {missingNums} from './helpers/expandPagination'
 
 
@@ -8,6 +7,7 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
   let availPages = missingNums(totalPages)
   let morePagesGreater = []
   let morePagesLess = []
+
   const addMorePages = (avail) => {
     avail.filter(itm => {
       if(itm > page && itm < page + 3) {
@@ -27,14 +27,6 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
     })
   }
   addLessPages(availPages)
-
-
-
-
-
-
-
-
 
   return (
 
@@ -82,9 +74,6 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
           onClick={() =>  handlePagination('next')}
           className='gp--arrow'>&raquo;
         </button>
-
-
-
 
       </div>
     </div>
