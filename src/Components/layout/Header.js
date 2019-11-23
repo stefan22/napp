@@ -80,7 +80,9 @@ class Header extends Component {
   }
 
   render() {
+
     const {filterBy} = this.state
+    const {results,matchingResuls} = this.props
 
     return (
 
@@ -139,6 +141,10 @@ class Header extends Component {
               </div>
             </form>
           </div>
+          {
+            !!results &&
+            matchingResuls
+          }
         </div>
       </header>
     )

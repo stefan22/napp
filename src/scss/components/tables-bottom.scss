@@ -55,6 +55,11 @@
           border-bottom: 1px solid rgba(224, 224, 224, 1);
           letter-spacing: 0.01em;
           vertical-align: middle;
+          &.created {
+            color: #006400;
+            width: 150px;
+            letter-spacing: 0;
+          }
         }
     }
   }

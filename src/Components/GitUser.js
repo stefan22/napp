@@ -27,7 +27,7 @@ class GitUser extends Component {
         },
       },
       page: 1,
-      totalPages: 0,
+      totalPages: 1,
       headerLinks: { prevLink: '', lastLink: '',
         nextLink: '', lastName: '', nextName: '', prevName: '',
       },
@@ -45,6 +45,12 @@ class GitUser extends Component {
   }
 
   handleHeaderLinks = (response) => {
+    if(response.headerLinks === undefined) {
+      this.setState({headerLinks: {
+        lastName: 1
+      }})
+      return true
+    }
     let headers = getHeaderLinks(response.headerLinks)
     const {lastLink,nextLink,prevLink,lastName,nextName,prevName} = headers
     return (
@@ -95,6 +101,7 @@ class GitUser extends Component {
     let repos = await GitApi_userRepos(usr)
     if(repos !== undefined) {
       this.handleHeaderLinks(repos)
+      // console.log('repos: ',repos)
       repos.filter(itm => itm !== itm.headerLinks ? reps.push(itm) : false)
       //update gitRepos state
       this.updateGitList(reps)
@@ -102,7 +109,7 @@ class GitUser extends Component {
   }
 
   render() {
-    console.log(this)
+    // console.log(this)
     const {
       user,
       gitSingle:{repos:{items}},headerLinks:{lastName},loading,page,totalPages} = this.state
@@ -169,7 +176,7 @@ class GitUser extends Component {
                       <table id='repos-table' cellPadding={3} cellSpacing={3}>
                         <thead>
                           <tr>
-                            <td align='left'>Id</td>
+                            <td align='left' className='repo__created'>Created</td>
                             <td align='left'>Name</td>
                             <td align='left'>Description</td>
                             <td align='left'>Language</td>

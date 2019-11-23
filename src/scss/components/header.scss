@@ -293,13 +293,28 @@ header {
   }
 }
 
-
-
-
-
-
 .search--topics {
   line-height: 24px;
   text-align: center;
   color: #FFF;
+}
+
+.results-found {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  transition: color .3s linear 0s;
+  padding: 0;
+  margin: 0;
+  height: 0;
+  line-height: 2.5;
+  font-size:.8rem;
+  margin-top: -2rem;
+  color: #f0f4c3;
+  letter-spacing: .25px;
+  font-variant-caps: petite-caps;
+  font-weight: 600;
+
 }

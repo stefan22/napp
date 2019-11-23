@@ -24,7 +24,8 @@ class Dashboard extends Component {
       totalPages: 0,
       headerLinks: { prevLink: '', lastLink: '',
         nextLink: '', lastName: '', nextName: '', prevName: '',
-      }
+      },
+      results: 0,
     }
   }
 
@@ -48,13 +49,25 @@ class Dashboard extends Component {
     })
   }
 
+  get getResults() {
+    return (
+      <div
+        className="results-found">
+        {`Found ${this.state.results} results in ${this.state.totalPages} pages`}
+      </div>
+    )
+  }
+
+
   updateGitList = (filtered) => (
     this.setState({
       gitSearch:{items: filtered},
       totalPages: this.state.headerLinks.lastName,
       page: 1,
+      results: Number(filtered.length) * this.state.headerLinks.lastName,
     })
   )
+
 
   checkRenderType = (t,p) => (
     (t.type.toLowerCase() === p.toLowerCase()) ? p : false
@@ -98,12 +111,14 @@ class Dashboard extends Component {
 
 
   render() {
-    console.log(this)
-    const {gitSearch:{items},headerLinks:{lastName},page,totalPages,message} = this.state
+    // console.log(this)
+    const {gitSearch:{items},headerLinks:{lastName},page,totalPages,message,results} = this.state
     return (
       <>
         <Header
           fetchGitData={this.fetchGitData}
+          results={results}
+          matchingResuls={this.getResults}
         />
 
         <main>
