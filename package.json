@@ -1,5 +1,6 @@
 {
   "name": "napp",
+  "homepage": "https://donpio.tech/repositories/napp/",
   "version": "1.0.0",
   "private": true,
   "dependencies": {

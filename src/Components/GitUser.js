@@ -8,7 +8,7 @@ import Header from '../Components/layout/Header'
 import Footer from '../Components/layout/Footer'
 //helpers
 import List from './helpers/List'
-import {GitApi_userRepos,GitAPI_searchNextPrevPage,url,GitAPI_searchPage,GitAPI_reposPage} from './helpers/GitApi'
+import {GitApi_userRepos,GitAPI_searchNextPrevPage,url,GitAPI_reposPage} from './helpers/GitApi'
 import getHeaderLinks from './helpers/getHeaderLinks'
 //styles
 import '../scss/components/gituser.scss'

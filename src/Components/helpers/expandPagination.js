@@ -5,9 +5,9 @@
 
 export const missingNums = (a) => {
   let num = [a], count = a
-  var missing = new Array()
+  let missing = []
   for(let i=1; i <= count; i++) {
-    if(num.indexOf(i) == -1) {
+    if(num.indexOf(i) === -1) {
       missing.push(i)
     }
   }

@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 import Header from './layout/Header'
 import Footer from './layout/Footer'
 //comps
-import SearchContainer from './SearchContainer'
 import Pagination from './Pagination'
 import GitUsersList from './GitUsersList'
 //helpers

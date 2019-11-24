@@ -20,3 +20,6 @@ yarn-error.log*
 
 # token
 src/Components/helpers/token.js
+
+# donPioPath
+src/Components/helpers/donPioPath.js
