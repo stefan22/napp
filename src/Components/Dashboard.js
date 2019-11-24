@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import Header from './layout/Header'
 import Footer from './layout/Footer'
 //comps
+import SearchContainer from './SearchContainer'
 import Pagination from './Pagination'
 import GitUsersList from './GitUsersList'
 //helpers
@@ -17,6 +18,8 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      filterBy: 'User',
+      queryString: '',
       gitSearch: {
         items: 0,
       },
@@ -27,8 +30,40 @@ class Dashboard extends Component {
       },
       results: 0,
     }
+    this.handleFilter = this.handleFilter.bind(this)
+    this.handleSearchQuery = this.handleSearchQuery.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
+  handleSearchQuery(e) {
+    e.preventDefault()
+    const {filterBy} = this.state
+    this.fetchGitData(
+      this.state.queryString,
+      filterBy
+    )
+  }
+
+  handleFilter(e) {
+    this.setState({
+      filterBy: e.target.value,
+    })
+  }
+
+  handleChange(event) {
+    const query = event.target
+    if(event.type === 'focus') {
+      query.value = ''
+      event.target.placeholder = 'Enter search parameter..'
+    } else if(event.type === 'blur') {
+      query.value = ''
+      event.target.placeholder = 'Search..'
+    } else if(event.key === 'Enter') {
+      this.setState({
+        queryString: query.value,
+      })
+    }
+  }
 
   handleHeaderLinks = (response) => {
     let headers = getHeaderLinks(response.headerLinks)
@@ -65,7 +100,6 @@ class Dashboard extends Component {
     )
   }
 
-
   updateGitList = (filtered) => (
     this.setState({
       gitSearch:{items: filtered},
@@ -74,7 +108,6 @@ class Dashboard extends Component {
       results: Number(filtered.length) * this.state.headerLinks.lastName,
     })
   )
-
 
   checkRenderType = (t,p) => (
     (t.type.toLowerCase() === p.toLowerCase()) ? p : false
@@ -136,7 +169,7 @@ class Dashboard extends Component {
     const {
       gitSearch:{items},
       headerLinks:{lastName},
-      page,totalPages,message,results
+      page,totalPages,message,results,filterBy
     } = this.state
 
     return (
@@ -144,7 +177,11 @@ class Dashboard extends Component {
         <Header
           fetchGitData={this.fetchGitData}
           results={results}
+          filterBy={filterBy}
           matchingResuls={this.getResults}
+          handleFilter={this.handleFilter}
+          handleChange={this.handleChange}
+          handleSearchQuery={this.handleSearchQuery}
         />
 
         <main>

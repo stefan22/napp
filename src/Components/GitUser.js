@@ -4,13 +4,13 @@ import {withRouter} from 'react-router-dom'
 import Pagination from './Pagination'
 import ReposTable from './ReposTable'
 //layout
+import Header from '../Components/layout/Header'
 import Footer from '../Components/layout/Footer'
 //helpers
 import List from './helpers/List'
 import {GitApi_userRepos,GitAPI_searchNextPrevPage,url,GitAPI_searchPage,GitAPI_reposPage} from './helpers/GitApi'
 import getHeaderLinks from './helpers/getHeaderLinks'
 //styles
-import logo__white from '../images/logo-one-try__white.png'
 import '../scss/components/gituser.scss'
 import loadingBall from '../images/ball.gif'
 
@@ -135,6 +135,8 @@ class GitUser extends Component {
       user,
       gitSingle:{repos:{items}},headerLinks:{lastName},loading,page,totalPages} = this.state
 
+    const {goBack} = this.props.history
+
     return (
       <>
         {
@@ -146,16 +148,9 @@ class GitUser extends Component {
             </div>
             :
             <>
-              <header className='gituser-header'>
-                <div className='topnav-container gituser'>
-                  <div className='topnav-logo'>
-                    <img src={logo__white} alt='logo' />
-                  </div>
-                  <div className='topnav-link goback'>
-                    <button onClick={this.props.history.goBack}>Go Back</button>
-                  </div>
-                </div>
-              </header>
+              <Header
+                goBack={goBack}
+              />
 
               <div className='gituser__page'>
                 <section className='gituser__section'>
