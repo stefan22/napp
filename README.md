@@ -22,16 +22,7 @@
 
 #### ttdo
 
-> changing how data is fetched,filtered & pagination
-> disabled details page, filters
-> matching search query to user/login name
-
-- details page header top nav scrolling
-- refactoring
-- pagination (console)
-- nav links
-- filters/sorting
-- anim
-- etc etc...
-
+- repos link to repository
+- filter repos by date,name,language
+- git search by organization
 
