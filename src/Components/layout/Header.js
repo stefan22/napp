@@ -4,6 +4,7 @@ import SearchContainer from '../SearchContainer'
 //styles
 import '../../scss/components/header.scss'
 import logo__white from '../../images/logo-one-try__white.png'
+import donPioPath from '../helpers/donPioPath'
 
 
 class Header extends Component {
@@ -48,7 +49,7 @@ class Header extends Component {
   }
 
   render() {
-    const home = window.location.pathname
+    const pathName = window.location.pathname
     const {
       results,matchingResuls,filterBy,
       handleChange,handleFilter,handleSearchQuery,goBack} = this.props
@@ -59,23 +60,26 @@ class Header extends Component {
         <div className={'topnav-container'}>
 
           <div className={`
-            ${(home === '/') ? 'topnav-logo' : 'topnav-logo gituser-header'}`}>
+           ${(donPioPath() === pathName) ?
+        'topnav-logo' : 'topnav-logo gituser-header'}`}>
             <img src={logo__white} alt='logo' />
           </div>
-          <div className={`${(home === '/') ? 'topnav-link' : 'topnav-link gituser'}`}>
+          <div className={`
+           ${(donPioPath() === pathName) ? 'topnav-link' : 'topnav-link gituser'}`}>
             <p>GitHub</p>
           </div>
           {
-            home !== '/' &&
-            <div className='topnav-link goback'>
-              <button
-                onClick={goBack}>Go Back</button>
-            </div>
+            (donPioPath() !== pathName) ?
+              <div className='topnav-link goback'>
+                <button
+                  onClick={goBack}>Go Back</button>
+              </div>
+              : false
           }
         </div>
 
         {
-          home === '/' ?
+          (donPioPath() === pathName) ?
             <SearchContainer
               filterBy={filterBy}
               results={results}

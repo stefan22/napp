@@ -69,7 +69,7 @@ class Dashboard extends Component {
       event.target.placeholder = 'Enter search parameter..'
     }
     else if(event.type === 'blur') {
-      event.target.placeholder = '..or enter again to clear results'
+      event.target.placeholder = 'Press enter to clear results'
       query.value = ''
     }
     else if(event.key === 'Enter') {
@@ -193,7 +193,6 @@ class Dashboard extends Component {
   }
 
   fetchGitData = async (usr,param='User') => {
-    console.log(usr)
     //no results empty str & clear results
     if(usr === '') {
       return this.setState({
