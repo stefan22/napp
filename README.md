@@ -10,23 +10,29 @@
 - `npm start`
 - open browser http://localhost:3000
 
-
 <br/>
 
+--------------------
 
-![](src/images/screenshot.png)
+<br />
 
 
-![](src/images/gituser.png)
+## dp2 branch
 
+
+- yarn run build
+- serve -s build
+- other:
+  + any conditionals against location.pathname
+  + app.js routing update w/dp path
+  + package.json home key/val
+
+
+
+## staging to public_url
+
+- package json => remove subdomain
+- helpers > donPioPath => remove subdomaim
+- n migrate to public_dir
 
 :100:
-
-
-#### ttdo
-
-- repos links to repositories
-- filter repos by date, name,language
-- organization styling
-- organization git url link
-- organization input remove spacing prior to query

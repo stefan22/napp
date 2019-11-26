@@ -193,7 +193,6 @@ class Dashboard extends Component {
   }
 
   fetchGitData = async (usr,param='User') => {
-    console.log(usr)
     //no results empty str & clear results
     if(usr === '') {
       return this.setState({
