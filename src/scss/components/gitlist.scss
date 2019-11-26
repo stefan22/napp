@@ -1,28 +1,35 @@
 #main-content {
 
   .maincenter {
-    width: 100%;
-    margin: 0 auto;
-    @media screen and (min-width: 1201px) {
-       width: 75%;
-    }
-    .gitinner {
-      display: flex;
-      flex-direction: column;
-      .git-row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 0;
-        @media screen and (min-width: 768px) {
-          padding: 0 1rem;
+      width: 100%;
+      margin: 0 auto;
+      &.org {
+        width: 98%;
+        transition: width .35s ease-in-out 0s;
+          @media screen and (min-width: 1680px) {
+          width: 75%;
         }
+      }
+      @media screen and (min-width: 1201px) {
+        width: 75%;
+      }
+      .gitinner {
+        display: flex;
+        flex-direction: column;
+        .git-row {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: 0;
+          @media screen and (min-width: 768px) {
+            padding: 0 1rem;
+          }
 
-      }//git-row
-    }//gitinner
-  }//maincenter
-}//main-content
+        }//git-row
+      }//gitinner
+    }//maincenter
+  }//main-content
 
 
 .git-item {
