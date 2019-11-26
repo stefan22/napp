@@ -25,7 +25,8 @@
 
 #### ttdo
 
-- repos link to repository
-- filter repos by date,name,language
+- repos links to repositories
+- filter repos by date, name,language
 - organization styling
-
+- organization git url link
+- organization input remove spacing prior to query
