@@ -5,8 +5,11 @@ import Footer from './layout/Footer'
 //comps
 import Pagination from './Pagination'
 import GitUsersList from './GitUsersList'
+import GitOrgInfo from './GitOrgInfo'
 //helpers
-import {GitAPI_searchUser,GitAPI_searchNextPrevPage,GitAPI_searchPage} from './helpers/GitApi'
+import {
+  GitAPI_searchUser,GitAPI_searchNextPrevPage,GitAPI_searchPage,GitAPI_searchOrg
+} from './helpers/GitApi'
 import getHeaderLinks from './helpers/getHeaderLinks'
 import List from './helpers/List'
 //styles
@@ -21,6 +24,7 @@ class Dashboard extends Component {
       queryString: '',
       gitSearch: {
         items: 0,
+        org: '',
       },
       page: 1,
       totalPages: 0,
@@ -28,6 +32,7 @@ class Dashboard extends Component {
         nextLink: '', lastName: '', nextName: '', prevName: '',
       },
       results: 0,
+      message: '',
     }
     this.handleFilter = this.handleFilter.bind(this)
     this.handleSearchQuery = this.handleSearchQuery.bind(this)
@@ -36,16 +41,24 @@ class Dashboard extends Component {
 
   handleSearchQuery(e) {
     e.preventDefault()
-    const {filterBy} = this.state
-    this.fetchGitData(
-      this.state.queryString,
-      filterBy
-    )
+    const {filterBy,queryString} = this.state
+    if (filterBy === 'Organization' && queryString !== '') {
+      return this.fetchGitOrgData(queryString)
+    }
+    this.fetchGitData(queryString)
   }
 
   handleFilter(e) {
+    //console.log(e.target.value)
     this.setState({
+      gitSearch: {
+        org: '',
+        items: 0,
+      },
       filterBy: e.target.value,
+      queryString: '',
+      message: '',
+      results: '',
     })
   }
 
@@ -54,14 +67,21 @@ class Dashboard extends Component {
     if(event.type === 'focus') {
       query.value = ''
       event.target.placeholder = 'Enter search parameter..'
-    } else if(event.type === 'blur') {
+    }
+    else if(event.type === 'blur') {
+      event.target.placeholder = '..or enter again to clear results'
       query.value = ''
-      event.target.placeholder = 'Search..'
-    } else if(event.key === 'Enter') {
+    }
+    else if(event.key === 'Enter') {
       this.setState({
-        queryString: query.value,
+        queryString: (query.value !== '') ? query.value : '',
       })
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    //filterBy changed state
+    return nextProps.filterBy !== this.state.filterBy
   }
 
   handleHeaderLinks = (response) => {
@@ -99,14 +119,29 @@ class Dashboard extends Component {
     )
   }
 
-  updateGitList = (filtered) => (
+  updateGitList = (filtered,org) => {
+    org = org || undefined
+    if(org === 'Organization') {
+      return this.setState({
+        gitSearch: {
+          org: filtered,
+        },
+        totalPages: 1,
+        page: 1,
+        results: 1,
+        message: '',
+        queryString: '',
+      })
+    }
     this.setState({
       gitSearch:{items: filtered},
       totalPages: this.state.headerLinks.lastName,
       page: 1,
+      message: '',
+      queryString: '',
       results: Number(filtered.length) * this.state.headerLinks.lastName,
     })
-  )
+  }
 
   checkRenderType = (t,p) => (
     (t.type.toLowerCase() === p.toLowerCase()) ? p : false
@@ -139,7 +174,40 @@ class Dashboard extends Component {
     }
   }
 
+  fetchGitOrgData = async (org) => {
+    let response = await GitAPI_searchOrg(org)
+    //console.log(response)
+    if(response !== undefined) {
+      //search results
+      this.updateGitList(response,'Organization')
+    }
+    else {
+      this.setState({
+        message: 'No Results found',
+        queryString: '',
+        gitSearch: {
+          org: '',
+        },
+      })
+    }
+  }
+
   fetchGitData = async (usr,param='User') => {
+    console.log(usr)
+    //no results empty str & clear results
+    if(usr === '') {
+      return this.setState({
+        gitSearch: {
+          items: '',
+          org: '',
+        },
+        totalPages: 1,
+        page: 1,
+        results: 0,
+        message: '',
+        queryString: '',
+      })
+    }
     let filres = []
     let response = await GitAPI_searchUser(usr,param)
     if(response !== undefined) {
@@ -155,6 +223,7 @@ class Dashboard extends Component {
       console.log('No search results match criteria')
       this.setState({
         message: 'No Results found',
+        queryString: '',
         gitSearch: {
           items: 0,
         },
@@ -166,7 +235,7 @@ class Dashboard extends Component {
   render() {
     //console.log(this)
     const {
-      gitSearch:{items},
+      gitSearch:{items,org},
       headerLinks:{lastName},
       page,totalPages,message,results,filterBy
     } = this.state
@@ -185,11 +254,11 @@ class Dashboard extends Component {
 
         <main>
           <div id='main-content'>
-            <div className='maincenter'>
+            <div className={`${(org) ? 'maincenter org' : 'maincenter'}`}>
               <div className='gitinner'>
                 <div className='git-row'>
                   {
-                    items === 0 &&
+                    filterBy === 'User' && message !== '' &&
                       <h3>{message}</h3>
                   }
                   {
@@ -197,6 +266,16 @@ class Dashboard extends Component {
                     <List
                       items={items}
                       item={GitUsersList}
+                    />
+                  }
+                  {
+                    filterBy === 'Organization' &&  org.id === undefined &&
+                      <h3>{message}</h3>
+                  }
+                  {
+                    !!org && filterBy === 'Organization' &&
+                    <GitOrgInfo
+                      org={org}
                     />
                   }
                 </div>

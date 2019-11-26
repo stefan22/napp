@@ -24,5 +24,5 @@
 
 - repos link to repository
 - filter repos by date,name,language
-- git search by organization
+- organization styling
 
