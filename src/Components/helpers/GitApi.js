@@ -13,11 +13,16 @@ const headers_repos = {//user repos
   'Authorization' : `Token ${token}`
 }
 
+const headers_org = {//org
+  'Accept' : 'application/vnd.github.surtur-preview+json',
+  'Authorization' : `Token ${token}`
+}
+
 //git search user: at least 1repo & matches login
 export const GitAPI_searchUser = async (name) => {
   const userReposUrl = `
-  ${url}/search/users?q=${name}+repos:>1+in:login+type:user&per_page=28
-  `
+    ${url}/search/users?q=${name}+repos:>1+in:login+type:user&per_page=28
+    `
   let response = await fetch(userReposUrl, {
     'method': 'GET',
     'headers': headers
@@ -29,6 +34,23 @@ export const GitAPI_searchUser = async (name) => {
     return result
   }
 }
+
+
+//git list all organizations
+export const GitAPI_searchOrg = async (name) => {
+  const getOrgUrl = `${url}/orgs/${name}`
+  //const listAllOrgUrl = `${url}/organizations`
+
+  let response = await fetch(getOrgUrl, {
+    'method': 'GET',
+    'headers': headers_org
+  })
+  if(response.statusText !== 'Not Found') {
+    let result = await response.json()
+    return result
+  }
+}
+
 
 //git user repos/ owner info
 export const GitApi_userRepos = async (user) => {

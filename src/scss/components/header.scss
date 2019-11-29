@@ -184,6 +184,13 @@ header {
   &:focus {
     outline: none;
   }
+  ::placeholder {
+    color: #868686;
+    display: none;
+    @media screen and (min-width: 680px) {
+      display: block;
+  }
+  }
   @media screen and (min-width: 1024px) {
     padding: 20px 20px 20px 60px;
   }
