@@ -99,7 +99,3 @@ export default GitOrgInfo
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 27556f0... org search & repos table w/route added
