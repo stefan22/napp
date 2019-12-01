@@ -51,6 +51,25 @@ export const GitAPI_searchOrg = async (name) => {
   }
 }
 
+//git org repos
+export const GitAPI_orgRepos = async (repos) => {
+  let getOrgRepos = `${repos}`
+  let response = await fetch(getOrgRepos, {
+    'method': 'GET',
+    'headers': headers_org
+  })
+  if(response.headers.get('link') !== null) {
+    let links = parseHeaderLink(response.headers.get('link'))
+    let result = await response.json()
+    result.headerLinks = links
+    return result
+  }
+  else {
+    let result = await response.json()
+    return result
+  }
+}
+
 
 //git user repos/ owner info
 export const GitApi_userRepos = async (user) => {
