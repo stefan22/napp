@@ -4,6 +4,7 @@ import {missingNums} from './helpers/expandPagination'
 
 const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) => {
 
+  totalPages = (totalPages < lastPage ? lastPage : totalPages)
   let availPages = missingNums(totalPages)
   let morePagesGreater = []
   let morePagesLess = []
@@ -32,6 +33,25 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
 
     <div className='gituser__pagination'>
       <div className='pagination__wrapper'>
+
+        {
+          morePagesLess.length === 2 ?
+            <div
+              className='dummy'
+              style={{visibility:'hidden',display: 'inline-block'}}>
+              <button style={{visibility: 'hidden',width:'41px'}}>&nbsp;</button>
+            </div>
+            : ''
+        }
+        {
+          morePagesLess.length <= 1 ?
+            <div
+              className='dummy'
+              style={{visibility:'hidden',display: 'inline-block'}}>
+              <button style={{visibility: 'hidden',width:'41px'}}>&nbsp;</button>
+            </div>
+            : ''
+        }
         <button
           disabled={page <= 1}
           onClick={() => handlePagination('prev')}
@@ -39,6 +59,7 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
         </button>
 
         {
+          !!morePagesLess &&
           morePagesLess.map((itm,idx) =>
             <button
               key={idx}
@@ -53,10 +74,11 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
 
         <span
           className='gp-page tally'>
-          page <b>{page}</b> of <b>{totalPages || lastPage}</b>
+          page <b>{page}</b> of <b>{totalPages}</b>
         </span>
 
         {
+          !!morePagesGreater &&
           morePagesGreater.map((itm,idx) =>
             <button
               key={idx}
@@ -74,6 +96,24 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
           onClick={() =>  handlePagination('next')}
           className='gp--arrow'>&raquo;
         </button>
+
+        {
+          morePagesGreater.length === 2 ?
+            <div className='dummy'
+              style={{visibility:'hidden',display: 'inline-block'}}>
+              <button style={{visibility: 'hidden',width:'41px'}}>&nbsp;</button>
+            </div>
+            : ''
+        }
+        {
+          morePagesGreater.length <= 1 ?
+            <div
+              className='dummy'
+              style={{visibility:'hidden',display: 'inline-block'}}>
+              <button style={{visibility: 'hidden',width:'41px'}}>&nbsp;</button>
+            </div>
+            : ''
+        }
 
       </div>
     </div>
