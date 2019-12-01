@@ -62,7 +62,7 @@ class GitOrgInfo extends Component {
                     <button
                       className='gitorg__stat--val repos__btn' type='button'>
                       <Link to={{
-                        pathname: `gitorg/${id}`,
+                        pathname: `/gitorg/${id}`,
                         repos,page,lastName,headerLinks,
                         handlePagination,fetchPageData,totalPages,
                         id,avatar_url,login,html_url,created_at,
@@ -94,7 +94,6 @@ class GitOrgInfo extends Component {
 
 
 export default GitOrgInfo
-
 
 
 
