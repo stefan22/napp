@@ -3,7 +3,8 @@
 > bootstrapped with `Create-react-app`
 
 
-+ [live preview -gitusers only](https://donpio.tech/repositories/napp/)
++ [live preview](https://donpio.tech/repositories/napp/)
+ex: search for tom or ibm &nbsp;  :cactus: &nbsp;(prw lnk may not have all updates)
 
 ### To install
 - `npm install` dependencies
