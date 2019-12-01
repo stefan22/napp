@@ -1,0 +1,47 @@
+table {
+  thead {
+    tr {
+      height: 75px;
+      max-height: 75px;
+    }
+  }
+  tbody {
+    tr {
+      height: 96px;
+      max-height: 96px;
+      overflow-y: auto;
+    }
+  }
+}
+
+
+
+
+.gituser__pagination {
+  .pagination__wrapper {
+
+    button {
+      min-width: initial;
+    }
+    .dummy {
+      display: none !important;
+    }
+    @media only screen and (min-width: 600px) {
+      min-width: 510px;
+      width: 510px;
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+      .gp-page.tally {
+        min-width: 107px;
+      }
+      .dummy {
+        display: inline-block;
+        visibility: hidden;
+      }
+      button {
+        min-width: 40px;
+      }
+    }
+  }
+}
