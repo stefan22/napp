@@ -19,7 +19,7 @@ const GitUsersList = (
           </span>
           <div className='gitflip'>
             <Link to={{
-              pathname: `/git/${id}`,
+              pathname: `/gituser/${id}`,
               login: login,
               type: type,
             }}
@@ -28,7 +28,7 @@ const GitUsersList = (
             </Link>
           </div>
           <Link to={{
-            pathname: `/git/${id}`,
+            pathname: `/gituser/${id}`,
             login: login,
             type: type,
           }}

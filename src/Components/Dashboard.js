@@ -8,12 +8,14 @@ import GitUsersList from './GitUsersList'
 import GitOrgInfo from './GitOrgInfo'
 //helpers
 import {
-  GitAPI_searchUser,GitAPI_searchNextPrevPage,GitAPI_searchPage,GitAPI_searchOrg
+  GitAPI_searchUser,GitAPI_searchNextPrevPage,
+  GitAPI_searchPage,GitAPI_searchOrg,GitAPI_orgRepos
 } from './helpers/GitApi'
 import getHeaderLinks from './helpers/getHeaderLinks'
 import List from './helpers/List'
 //styles
 import '../scss/components/gitlist.scss'
+import loadingBall from '../images/ball.gif'
 
 
 class Dashboard extends Component {
@@ -23,8 +25,9 @@ class Dashboard extends Component {
       filterBy: 'User',
       queryString: '',
       gitSearch: {
-        items: 0,
-        org: '',
+        users: 0,
+        org: {},
+        repos: 0,
       },
       page: 1,
       totalPages: 0,
@@ -33,6 +36,7 @@ class Dashboard extends Component {
       },
       results: 0,
       message: '',
+      loading: false,
     }
     this.handleFilter = this.handleFilter.bind(this)
     this.handleSearchQuery = this.handleSearchQuery.bind(this)
@@ -53,7 +57,7 @@ class Dashboard extends Component {
     this.setState({
       gitSearch: {
         org: '',
-        items: 0,
+        users: [],
       },
       filterBy: e.target.value,
       queryString: '',
@@ -100,13 +104,14 @@ class Dashboard extends Component {
       this.setState({
         totalPages: lastName || prevName + 1,
         page: dir,
+        loading: false,
       })
       return true
     }
     let isPage = (dir === 'next') ? nextName : prevName
     this.setState({//updt nx/prv pg
       totalPages: lastName,
-      page: isPage,
+      page: isPage, loading: false,
     })
   }
 
@@ -119,7 +124,7 @@ class Dashboard extends Component {
     )
   }
 
-  updateGitList = (filtered,org) => {
+  updateGitList = (filtered,org) => {//debugger
     org = org || undefined
     if(org === 'Organization') {
       return this.setState({
@@ -131,16 +136,20 @@ class Dashboard extends Component {
         results: 1,
         message: '',
         queryString: '',
+        loading: false,
       })
     }
-    this.setState({
-      gitSearch:{items: filtered},
-      totalPages: this.state.headerLinks.lastName,
-      page: 1,
-      message: '',
-      queryString: '',
-      results: Number(filtered.length) * this.state.headerLinks.lastName,
-    })
+    if(filtered !== undefined) {
+      this.setState({
+        gitSearch:{users: filtered},
+        totalPages: this.state.headerLinks.lastName,
+        page: 1,
+        message: '',
+        queryString: '',
+        loading: false,
+        results: Number(filtered.length) * this.state.headerLinks.lastName,
+      })
+    }
   }
 
   checkRenderType = (t,p) => (
@@ -150,6 +159,7 @@ class Dashboard extends Component {
   handlePagination = async (direction) => {
     const {headerLinks:{nextLink,prevLink}} = this.state
     const whichPage = (direction === 'next') ? nextLink : prevLink
+    this.setState({loading: true})
     let pageData = await GitAPI_searchNextPrevPage(whichPage)
     let pageItems = pageData.items
     let pageLinks = pageData.headerLinks
@@ -164,6 +174,7 @@ class Dashboard extends Component {
     let handle = this.state.headerLinks.lastLink || this.state.headerLinks.prevLink
     let rem = handle.indexOf('page=28')
     handle = handle.slice(0, rem + 13)
+    this.setState({loading: true})
     let pageData = await GitAPI_searchPage(handle,pg)
     let pageItems = pageData.items
     let pageLinks = pageData.headerLinks
@@ -175,11 +186,12 @@ class Dashboard extends Component {
   }
 
   fetchGitOrgData = async (org) => {
+    this.setState({loading: true})
     let response = await GitAPI_searchOrg(org)
-    //console.log(response)
     if(response !== undefined) {
       //search results
       this.updateGitList(response,'Organization')
+      this.fetchGitOrgRepos(response.repos_url)
     }
     else {
       this.setState({
@@ -192,14 +204,23 @@ class Dashboard extends Component {
     }
   }
 
+  fetchGitOrgRepos = async (repos) => {
+    let res = []
+    let response = await GitAPI_orgRepos(repos)
+    let pageLinks = response.headerLinks
+    if(pageLinks !== undefined) {
+      this.handleHeaderLinks(response)
+      response.filter(itm =>  //filtered out types
+        itm.next === undefined ? res.push(itm) : false
+      )
+      this.setState({repos: res,loading: false})
+    }
+  }
+
   fetchGitData = async (usr,param='User') => {
-    //no results empty str & clear results
     if(usr === '') {
       return this.setState({
-        gitSearch: {
-          items: '',
-          org: '',
-        },
+        gitSearch: {users: '',org: ''},
         totalPages: 1,
         page: 1,
         results: 0,
@@ -208,6 +229,7 @@ class Dashboard extends Component {
       })
     }
     let filres = []
+    this.setState({loading: true})
     let response = await GitAPI_searchUser(usr,param)
     if(response !== undefined) {
       //search results
@@ -224,8 +246,9 @@ class Dashboard extends Component {
         message: 'No Results found',
         queryString: '',
         gitSearch: {
-          items: 0,
+          users: [],
         },
+        loading: false,
       })
     }
   }
@@ -234,66 +257,86 @@ class Dashboard extends Component {
   render() {
     //console.log(this)
     const {
-      gitSearch:{items,org},
-      headerLinks:{lastName},
-      page,totalPages,message,results,filterBy
+      headerLinks,
+      gitSearch:{users,org}, queryString,
+      page,totalPages,repos,message,results,filterBy,loading,
     } = this.state
 
     return (
       <>
-        <Header
-          fetchGitData={this.fetchGitData}
-          results={results}
-          filterBy={filterBy}
-          matchingResuls={this.getResults}
-          handleFilter={this.handleFilter}
-          handleChange={this.handleChange}
-          handleSearchQuery={this.handleSearchQuery}
-        />
-
-        <main>
-          <div id='main-content'>
-            <div className={`${(org) ? 'maincenter org' : 'maincenter'}`}>
-              <div className='gitinner'>
-                <div className='git-row'>
-                  {
-                    filterBy === 'User' && message !== '' &&
-                      <h3>{message}</h3>
-                  }
-                  {
-                    !!items &&
-                    <List
-                      items={items}
-                      item={GitUsersList}
-                    />
-                  }
-                  {
-                    filterBy === 'Organization' &&  org.id === undefined &&
-                      <h3>{message}</h3>
-                  }
-                  {
-                    !!org && filterBy === 'Organization' &&
-                    <GitOrgInfo
-                      org={org}
-                    />
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
         {
-          !!items &&
-          <Pagination
-            page={page}
-            lastName={lastName}
-            handlePagination={this.handlePagination}
-            fetchPageData={this.fetchPageData}
-            totalPages={totalPages}
-          />
-        }
+          (loading) ?
+            <div className='gituser__loading'>
+              <h3>Loading...</h3>
+              <img src={loadingBall} alt='loading' width='256' height='256' />
+            </div>
+            :
+            <>
+              <Header
+                fetchGitData={this.fetchGitData}
+                results={results}
+                filterBy={filterBy}
+                matchingResuls={this.getResults}
+                handleFilter={this.handleFilter}
+                handleChange={this.handleChange}
+                handleSearchQuery={this.handleSearchQuery}
+              />
 
-        <Footer />
+              <main>
+                <div id='main-content'>
+                  <div className={`${(org) ? 'maincenter org' : 'maincenter'}`}>
+                    <div className='gitinner'>
+                      <div className='git-row'>
+                        {
+                          filterBy === 'User' && message !== '' &&
+                        <h3>{message}</h3>
+                        }
+                        {
+                          !!users && filterBy === 'User' &&
+                      <List
+                        items={users}
+                        item={GitUsersList}
+                      />
+                        }
+                        {
+                          filterBy === 'Organization' &&  message !== '' &&
+                        <h3>{message}</h3>
+                        }
+                        {
+                          !!org && filterBy === 'Organization' && !loading &&
+                      <GitOrgInfo
+                        org={org}
+                        repos={repos}
+                        loading={loading}
+                        headerLinks={headerLinks}
+                        lastName={headerLinks.lastName}
+                        totalPages={totalPages}
+                        queryString={queryString}
+                        message={message}
+                        page={page}
+                        results={results}
+                        fetchGitOrgRepos={this.fetchGitOrgRepos}
+                      />
+                        }
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </main>
+              {
+                !!users && filterBy === 'User' &&
+            <Pagination
+              page={page}
+              lastPage={headerLinks.lastName}
+              handlePagination={this.handlePagination}
+              fetchPageData={this.fetchPageData}
+              totalPages={totalPages}
+            />
+              }
+              <Footer />
+            </>
+        }
       </>
     )
 

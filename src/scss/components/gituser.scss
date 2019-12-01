@@ -18,6 +18,17 @@
       z-index: 0;
       min-height: calc(40vh);
       padding: 2rem 0 10rem 0;
+
+      &.company {
+         @media only screen and (min-width: 1201px) {
+           background: #f4ede4 url('../../images/binoculars.png') no-repeat left center;
+           mix-blend-mode: multiply;
+           background-size: contain;
+         }
+        @media only screen and (min-width: 1600px) {
+           background-size: auto;
+        }
+      }
       @media only screen and (min-width:768px) {
         min-height: calc(30vh);
         padding: 2rem 0 7rem 0;
@@ -30,6 +41,17 @@
           background: url('../../images/img2.jpg') no-repeat center top;
           will-change: transform;
           background-size: contain;
+          z-index: 1;
+        }
+      }
+      .gitcomp__left {
+        @media only screen and (min-width: 1201px) {
+          min-height: calc(40vh);
+          padding: 2rem 0 10rem 0;
+          flex: 0 1 40%;
+          // background: url('../../images/binoculars.png') no-repeat left center;
+          will-change: transform;
+          background-size: auto;
           z-index: 1;
         }
       }
@@ -65,6 +87,9 @@
           flex-direction: column;
           align-items: center;
           flex: 0 1 auto;
+          a {
+            color: #267a7c;
+          }
           @media only screen and (min-width: 1201px) {
              align-items: flex-start;
           }
@@ -118,7 +143,7 @@
             right: 7%;
             top: 15%;
             font-size: .85rem;
-            width: 310px;
+            width: 312px;
             padding: 3rem 2.75rem;
             overflow: hidden;
             border-radius: 50%;
@@ -200,14 +225,17 @@ header {
   will-change: transform;
   background-position: 1490px 530px;
   @media only screen and (min-width: 1201px) {
-    padding: 5rem 0;
+    padding: 4rem 0;
+  }
+  @media only screen and (min-width: 1600px) {
+    background-position: 1730px 475px;
   }
   h2 {
     text-align: center;
     margin: 3rem 0;
     width: 100%;
     letter-spacing: .5px;
-    font-size: 1.85rem;
+    font-size: 2rem;
     font-weight: 600;
     color: #ff3c00;
     -webkit-font-smoothing: antialiased;

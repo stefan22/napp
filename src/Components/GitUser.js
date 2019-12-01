@@ -15,6 +15,7 @@ import '../scss/components/gituser.scss'
 import loadingBall from '../images/ball.gif'
 
 
+
 class GitUser extends Component {
   constructor(props) {
     super(props)
@@ -162,15 +163,33 @@ class GitUser extends Component {
                       </h1>
                       <div className='gituser__info'>
                         <h3><span>Username:</span> {user.name}</h3>
-                        <h3><span>Location:</span> {(user.login) ?
-                          user.location :
-                          'Not Available'}</h3>
+                        <h3><span>Location:</span>
+                          {(user.location) ? user.location : 'Not Available'}</h3>
                         <h3>
                           <span>Blog:</span> {
-                            (user.blog) ? user.blog : 'Not Available'
+                            (user.blog) ?
+                              <a rel="noopener noreferrer"
+                                href={user.blog}
+                                target='_blank'
+                              >
+                                {user.name.split(' ')[0] + '\'s blog'}
+                              </a>
+                              : 'Not Available'
                           }</h3>
-                        <h3><span>Company:</span> {(user.company) ? user.company :
-                          'Not Available'}</h3>
+                        <h3>
+                          <span>Company:</span>
+                          {user.company || 'Not Available'}</h3>
+                        <h3><span>GitHub:</span>{
+                          (user.url) ?
+                            <a
+                              rel="noopener noreferrer"
+                              href={user.html_url}
+                              target='_blank'
+                            >
+                              {user.login}
+                            </a>
+                            : 'Not Available'
+                        }</h3>
                       </div>
                     </div>
                     <div className='gituser__right'>
