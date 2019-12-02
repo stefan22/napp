@@ -1,10 +1,10 @@
 import React from 'react'
 import Dashboard from './Dashboard'
-import GitUser from './GitUser'
+import GitUser from './gitusers/GitUser'
 import {Route, Switch} from 'react-router-dom'
 import '../scss/components/header.scss'
 import donPioPath from './helpers/donPioPath'
-import OrgRepos from './OrgRepos'
+import OrgRepos from './gitorgs/OrgRepos'
 
 
 const App = () => (

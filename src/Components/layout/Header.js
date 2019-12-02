@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 //comps
-import SearchContainer from '../SearchContainer'
+import SearchContainer from '../gitsearch/SearchContainer'
 //styles
 import '../../scss/components/header.scss'
 import logo__white from '../../images/logo-one-try__white.png'

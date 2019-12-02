@@ -3,9 +3,9 @@ import React, {Component} from 'react'
 import Header from './layout/Header'
 import Footer from './layout/Footer'
 //comps
-import Pagination from './Pagination'
-import GitUsersList from './GitUsersList'
-import GitOrgInfo from './GitOrgInfo'
+import Pagination from './layout/Pagination'
+import GitUsersList from './gitusers/GitUsersList'
+import GitOrgInfo from './gitorgs/GitOrgInfo'
 //helpers
 import {
   GitAPI_searchUser,GitAPI_searchNextPrevPage,
