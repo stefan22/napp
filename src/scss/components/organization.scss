@@ -45,3 +45,15 @@ table {
     }
   }
 }
+
+
+.nopublic__repos {
+  display: flex;
+  flex-direction: column;
+  margin: 3rem 0;
+  h3 {
+    text-align: center;
+    color: #454245;
+    font-weight: 600;
+  }
+}

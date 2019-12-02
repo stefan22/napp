@@ -174,75 +174,79 @@ class OrgRepos extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className='repos'>
-                      <div className='repos-wrapper'>
-                        <table id='repos-table'>
-                          <thead>
-                            <tr>
-                              <td>
-                                  Created
-                              </td>
-                              <td>
-                                  Name
-                              </td>
-                              <td>
-                                  Description
-                              </td>
-                              <td>
-                                  Language
-                              </td>
-                              <td>
-                                  Forks
-                              </td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              !!repos &&
-                        repos.map((itm,idx) =>
-                          <tr key={idx}>
-                            <td className='table__cell created' align='left'>{
-                              new Date(Date.parse(itm.created_at)).toDateString()
-                            }</td>
-                            <td className='table__cell name' align='left'>{
-                              <a
-                                rel="noopener noreferrer"
-                                target={'_blank'}
-                                href={itm.html_url}
-                                title={itm.name}
-                              >
-                                {itm.name}
-                              </a>
-                            }</td>
-                            <td className='table__cell' align='left'>{
-                              itm.description || 'No information available'}</td>
-                            <td className='table__cell' align='left'>{itm.language}
-                            </td>
-                            <td className='table__cell' align='left'>{itm.forks_count}                                   </td>
-                          </tr>
-                        )
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                      {
-                        !!repos && filterBy !== 'User' &&
-                    <Pagination
-                      page={page}
-                      lastPage={lastName}
-                      handlePagination={this.handlePagination}
-                      fetchPageData={this.fetchPageData}
-                      totalPages={totalPages}
-                    />
-                      }
-                    </div>
+
+                    {
+                      !!repos && filterBy !== 'User' ?
+
+                        <div className='repos'>
+                          <div className='repos-wrapper'>
+                            <table id='repos-table'>
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Created
+                                  </td>
+                                  <td>
+                                    Name
+                                  </td>
+                                  <td>
+                                    Description
+                                  </td>
+                                  <td>
+                                    Language
+                                  </td>
+                                  <td>
+                                    Forks
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {repos.map((itm,idx) =>
+                                  <tr key={idx}>
+                                    <td className='table__cell created' align='left'>{
+                                      new Date(Date.parse(itm.created_at)).toDateString()
+                                    }</td>
+                                    <td className='table__cell name' align='left'>{
+                                      <a
+                                        rel="noopener noreferrer"
+                                        target={'_blank'}
+                                        href={itm.html_url}
+                                        title={itm.name}
+                                      >
+                                        {itm.name}
+                                      </a>
+                                    }</td>
+                                    <td className='table__cell' align='left'>{
+                                      itm.description || 'No information available'}</td>
+                                    <td className='table__cell' align='left'>{itm.language}
+                                    </td>
+                                    <td className='table__cell' align='left'>
+                                      {itm.forks_count}
+                                    </td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <Pagination
+                            page={page}
+                            lastPage={lastName}
+                            handlePagination={this.handlePagination}
+                            fetchPageData={this.fetchPageData}
+                            totalPages={totalPages}
+                          />
+                        </div>
+                        :
+                        <div className='nopublic__repos'>
+                          <h3>No Public Repos found.</h3>
+                        </div>
+                    }
                   </div>
                 </div>
               }
             </>
         }
-
-      }
       </>
     )
   }
