@@ -200,6 +200,7 @@ class Dashboard extends Component {
         gitSearch: {
           org: '',
         },
+        loading: false,
       })
     }
   }

@@ -30,18 +30,6 @@ ex: search for tom or ibm &nbsp;  :cactus: &nbsp;(prw lnk may not have all updat
 
 
 
-## dp2 branch stgn 2 pblc_url
-
-
-- yarn run build
-- serve -s build
-- other:
-  + any conditionals against location.pathname
-  + app.js routing update w/dp path
-  + package.json home key/val
-
-
-
 ## rtdo (2.5)
 
 - repos links to repositories √
