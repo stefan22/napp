@@ -186,8 +186,9 @@ class Dashboard extends Component {
   }
 
   fetchGitOrgData = async (org) => {
+    let qry = org.split(' ').join('') //orgs only
     this.setState({loading: true})
-    let response = await GitAPI_searchOrg(org)
+    let response = await GitAPI_searchOrg(qry)
     if(response !== undefined) {
       //search results
       this.updateGitList(response,'Organization')
