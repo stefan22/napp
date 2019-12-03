@@ -19,3 +19,19 @@ export const parseHeaderLink = (header) => {
 
   return links
 }
+
+
+export const handleSortBy = (v) => {
+  const doc = document
+  const handle = '.gitorg__sort-repos'
+  switch(v) {
+  case 'language':
+    return doc.querySelectorAll(handle)[2]
+  case 'name':
+    return doc.querySelectorAll(handle)[1]
+  case 'created_at':
+    return doc.querySelectorAll(handle)[0]
+  default:
+    return
+  }
+}

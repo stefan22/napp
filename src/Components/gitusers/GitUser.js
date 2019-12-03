@@ -9,6 +9,7 @@ import Footer from '../layout/Footer'
 //helpers
 import List from '../helpers/List'
 import {GitApi_userRepos,GitAPI_searchNextPrevPage,url,GitAPI_reposPage} from '../helpers/GitApi'
+import {handleSortBy} from '../helpers/parseHeaderLink'
 import getHeaderLinks from '../helpers/getHeaderLinks'
 //styles
 import '../../scss/components/gituser.scss'
@@ -130,8 +131,37 @@ class GitUser extends Component {
     }
   }
 
+  handleSortingBy(val,reverse) {
+    const {gitSingle:{repos}} = this.state
+    console.log(repos.items)
+    let sortArr = repos.items.sort((a,b) => {
+      let x =  a[val] === null ? '' : a[val].toLowerCase()
+      let y =  b[val] === null ? '' : b[val].toLowerCase()
+      if(x < y) return -1
+      if(x > y) return 1
+      return 0
+    })
+    this.setState({repos: (reverse === undefined) ? sortArr : sortArr.reverse()})
+  }
+
+  hanldeSorting = (e) => {
+    let val = e.target.id.split('__')[1]
+    let sortin = handleSortBy(val)
+    if(sortin.classList.contains('down')) {
+      sortin.classList.remove('down')
+      sortin.classList.add('up')
+      this.handleSortingBy(val,'reverse')
+    } else {
+      document.querySelectorAll('.td__dosort')
+        .forEach(itm => itm.children[0].classList.remove('down'))
+      sortin.classList.add('down')
+      this.handleSortingBy(val)
+    }
+  }
+
+
   render() {
-    //console.log(this)
+    console.log(this)
     const {
       user,
       gitSingle:{repos:{items}},headerLinks:{lastName},loading,page,totalPages} = this.state
@@ -190,6 +220,7 @@ class GitUser extends Component {
                             </a>
                             : 'Not Available'
                         }</h3>
+
                       </div>
                     </div>
                     <div className='gituser__right'>
@@ -204,16 +235,60 @@ class GitUser extends Component {
 
                   </div>
                   <div className='repos'>
-                    <h2>Repo Court</h2>
+                    <h2>Repo Court
+                      <span className='repos__subheading'>
+                      Sort by Date, Name & Language</span>
+                    </h2>
                     <div className='repos-wrapper'>
                       <table id='repos-table' cellPadding={3} cellSpacing={3}>
                         <thead>
                           <tr>
-                            <td align='left' className='repo__created'>Created</td>
-                            <td align='left'>Name</td>
-                            <td align='left'>Description</td>
-                            <td align='left'>Language</td>
-                            <td align='left'>Username</td>
+
+                            <td
+                              align='left'
+                              className='repo__created td__dosort'
+                            >
+                              <span
+                                onClick={(e) => this.hanldeSorting(e)}
+                                id='gitorg__created_at'
+                                className='gitorg__sort-repos'>
+                              </span>
+                              Date
+                            </td>
+
+                            <td
+                              align='left'
+                              className='repo__created td__dosort'
+                            >
+                              <span
+                                onClick={(e) => this.hanldeSorting(e)}
+                                id='gitorg__name'
+                                className='gitorg__sort-repos'>
+                              </span>
+                              Name
+                            </td>
+
+                            <td
+                              align='left'>Description</td>
+
+                            <td
+                              align='left'
+                              className='repo__created td__dosort'
+                            >
+                              <span
+                                onClick={(e) => this.hanldeSorting(e)}
+                                id='gitorg__language'
+                                className='gitorg__sort-repos'>
+                              </span>
+                              Language
+                            </td>
+
+                            <td
+                              align='left'
+                            >
+                              Username
+                            </td>
+
                             <td align='left'>Forks</td>
                           </tr>
                         </thead>

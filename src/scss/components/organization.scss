@@ -1,3 +1,12 @@
+.repos__subheading {
+  font-size: .8rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: #666666;
+}
+
+
 table {
   thead {
     tr {
@@ -57,3 +66,39 @@ table {
     font-weight: 600;
   }
 }
+
+.repos-wrapper {
+
+  td {
+    line-height: 32px !important;
+    &.td__dosort {
+      min-width: 160px;
+      line-height: 2;
+    }
+    .gitorg__sort-repos {
+      background-image: url('../../images/sort-arrow2.png');
+      width: 25px;
+      height: 26px;
+      transition: transform .3s ease .5ms;
+      background-position: 2px 0;
+      display: inline-block;
+      transform: rotate(-360deg);
+      z-index: 10;
+      margin-left: -7px;
+      cursor: pointer;
+      mix-blend-mode: color-burn;
+      vertical-align: sub;
+
+      &.down {
+        background-position: 25px 4px;
+        transform: rotate(720deg);
+        // mix-blend-mode: hue;
+        mix-blend-mode: normal;
+      }
+      &.up {
+        mix-blend-mode: normal;
+      }
+    }
+  }//td
+
+}//repos-wrapper
