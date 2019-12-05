@@ -25,7 +25,7 @@ const ReposTable = (props) => {
       }</td>
       <td className='table__cell' align='left'>{
         description || 'No information available'}</td>
-      <td className='table__cell' align='left'>{language}</td>
+      <td className='table__cell' align='left'>{language || 'N/A'}</td>
       <td className='table__cell' align='left'>{owner.login}</td>
       <td className='table__cell' align='left'>{forks_count}</td>
     </tr>

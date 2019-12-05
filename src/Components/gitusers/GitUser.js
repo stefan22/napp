@@ -133,7 +133,7 @@ class GitUser extends Component {
 
   handleSortingBy(val,reverse) {
     const {gitSingle:{repos}} = this.state
-    console.log(repos.items)
+    //console.log(repos.items)
     let sortArr = repos.items.sort((a,b) => {
       let x =  a[val] === null ? '' : a[val].toLowerCase()
       let y =  b[val] === null ? '' : b[val].toLowerCase()
@@ -161,7 +161,7 @@ class GitUser extends Component {
 
 
   render() {
-    console.log(this)
+    //console.log(this)
     const {
       user,
       gitSingle:{repos:{items}},headerLinks:{lastName},loading,page,totalPages} = this.state
