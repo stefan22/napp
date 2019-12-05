@@ -33,9 +33,23 @@ ex: search for tom or ibm &nbsp;  :cactus: &nbsp;(prw lnk may not have all updat
 ## rtdo (2.5)
 
 - repos links to repositories √
-- `filter repos by date, name,language`
+- `filter repos by date, name,language` √
 - organization styling - mostly done
 - organization git url link √
-- `organization input remove spacing prior to query`
+- `organization input remove spacing prior to query` √
+
+
+
+<br/>
+
+### testing:
+-----------
++ dashboard comp ..
++
++
+
+
+
+
 
 :100:
