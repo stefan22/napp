@@ -12,16 +12,21 @@ const getHeaderLinks = link => {
     if (link.last !== undefined) {
       brknlastLink = link.last
       obj.lastLink = brknlastLink
-      let brknlast = brknlastLink !== undefined ? brknlastLink.split('=') : undefined
-      brknlastName = Number(brknlast.filter((lk,idx) => idx === brknlast.length -1))
-      obj.lastName = brknlastName
+      let brknlast = brknlastLink !== undefined ? brknlastLink.split('=') : undefined;
+      if (!brknlast) {
+        brknlastName = Number(brknlast.filter((lk,idx) => idx === brknlast.length -1))
+        obj.lastName = brknlastName
+      }
+     
     }
     if(link.next !== undefined) {
       brknnextLink = link.next
       obj.nextLink = brknnextLink
-      let brknnext = brknnextLink !== undefined ? brknnextLink.split('=') : undefined
-      brknnextName = Number(brknnext.filter((lk,idx) => idx === brknnext.length -1))
-      obj.nextName =  brknnextName
+      let brknnext = brknnextLink !== undefined ? brknnextLink.split('=') : undefined;
+      if(!brknnextName) {
+        brknnextName = Number(brknnext.filter((lk,idx) => idx === brknnext.length -1))
+        obj.nextName =  brknnextName
+      }
     }
     return obj
   }

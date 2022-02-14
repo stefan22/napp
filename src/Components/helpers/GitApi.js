@@ -1,7 +1,9 @@
 import {parseHeaderLink} from './parseHeaderLink'
-import token from './token'
+import { getToken } from './token'
 
 export const url = 'https://api.github.com'
+
+const token = getToken();
 
 const headers = {//search users
   'Accept' : 'application/vnd.github.v3.text-match+json',
