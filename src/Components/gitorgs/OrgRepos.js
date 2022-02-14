@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import Header from '../layout/Header'
 import Pagination from '../layout/Pagination'
-import {GitAPI_searchNextPrevPage,GitAPI_reposPage} from '../helpers/GitApi'
+import {GitAPI_searchNextPrevPage} from '../helpers/GitApi'
 import {handleSortBy} from '../helpers/parseHeaderLink'
 import getHeaderLinks from '../helpers/getHeaderLinks'
 import '../../scss/components/gituser.scss'
@@ -96,22 +96,23 @@ class OrgRepos extends Component {
     }
   }
 
-  fetchPageData = async (pg) => {
-    let handle = this.state.headerLinks.lastLink  || this.state.headerLinks.prevLink
-    let rem = handle.indexOf('page=')
-    handle = handle.slice(0,rem+5)
-    this.setState({loading: true})
-    let pageData = await GitAPI_reposPage(handle,pg)
-    let repos = []
-    if(pageData !== undefined) {
-      let pageItems = pageData.filter(itm =>
-        itm.headerLinks === undefined ? repos.push(itm) : false
-      )
-      this.setState({repos: pageItems})
-    }
-    this.updatePage(pg)
-    this.handleHeaderLinks(pageData)
-  }
+  // fetchPageData = async (pg) => {
+  //   console.log('what is pg ', pg);
+  //   let handle = this.state.headerLinks.lastLink  || this.state.headerLinks.prevLink
+  //   let rem = handle.indexOf('page=')
+  //   handle = handle.slice(0,rem+5)
+  //   this.setState({loading: true})
+  //   let pageData = await GitAPI_reposPage(handle,pg)
+  //   let repos = []
+  //   if(pageData !== undefined) {
+  //     let pageItems = pageData.filter(itm =>
+  //       itm.headerLinks === undefined ? repos.push(itm) : false
+  //     )
+  //     this.setState({repos: pageItems})
+  //   }
+  //   this.updatePage(pg)
+  //   this.handleHeaderLinks(pageData)
+  // }
 
   handleSortingBy(val,reverse) {
     const {repos} = this.state
@@ -142,7 +143,7 @@ class OrgRepos extends Component {
 
 
   render() {
-    //console.log(this)
+    console.log('org ',this)
     const {
       org: {
         id,name,created_at,location,
@@ -301,7 +302,7 @@ class OrgRepos extends Component {
                             page={page}
                             lastPage={lastName}
                             handlePagination={this.handlePagination}
-                            fetchPageData={this.fetchPageData}
+                            //fetchPageData={this.fetchPageData}
                             totalPages={totalPages}
                           />
                         </div>

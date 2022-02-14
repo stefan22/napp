@@ -1,33 +1,45 @@
 const getHeaderLinks = link => {
-  let obj = {}
-  let brknprevName,brknlastName,brknnextName,brknprevLink,brknlastLink,brknnextLink
-  if(typeof link === 'object') {
-    if(link.prev !== undefined) {
-      brknprevLink = link.prev//links
-      obj.prevLink = brknprevLink
-      let brknprev = brknprevLink !== undefined ? brknprevLink.split('=') : undefined
-      brknprevName = Number(brknprev.filter((lk,idx) => idx === brknprev.length -1))
-      obj.prevName =  brknprevName
+  let obj = {};
+
+  console.log('what is link ', link, ' what is obj ', obj);
+
+  let brknprevName, brknlastName, brknnextName, brknprevLink, brknlastLink, brknnextLink;
+  let brknprev, brknlast, brknnext;
+
+  if (typeof link === 'object') {
+
+    //link.prev
+    brknprevLink = link.prev || '';
+    obj.prevLink = brknprevLink;
+
+    if (brknprevLink.length > 3) {
+      brknprev = brknprevLink.split('=');
+      brknprevName = Number(brknprev.filter((lk, idx) => idx === brknprev.length - 1))
+      obj.prevName = brknprevName
     }
-    if (link.last !== undefined) {
-      brknlastLink = link.last
-      obj.lastLink = brknlastLink
-      let brknlast = brknlastLink !== undefined ? brknlastLink.split('=') : undefined;
-      if (!brknlast) {
-        brknlastName = Number(brknlast.filter((lk,idx) => idx === brknlast.length -1))
-        obj.lastName = brknlastName
-      }
-     
+
+    //link.last    
+    brknlastLink = link.last || '';
+    obj.lastLink = brknlastLink;
+
+    if (brknlastLink.length > 3) {
+      brknlast = brknlastLink.split('=');
+      brknlastName = Number(brknlast.filter((lk, idx) => idx === brknlast.length - 1))
+      obj.lastName = brknlastName;
     }
-    if(link.next !== undefined) {
-      brknnextLink = link.next
-      obj.nextLink = brknnextLink
-      let brknnext = brknnextLink !== undefined ? brknnextLink.split('=') : undefined;
-      if(!brknnextName) {
-        brknnextName = Number(brknnext.filter((lk,idx) => idx === brknnext.length -1))
-        obj.nextName =  brknnextName
-      }
+
+
+    //link.next
+    
+    brknnextLink = link.next || '';
+    obj.nextLink = brknnextLink;
+
+    if (brknnextLink.length > 3) {
+      brknnext = brknnextLink.split('=');
+      brknnextName = Number(brknnext.filter((lk, idx) => idx === brknnext.length - 1));
+      obj.nextName = brknnextName;
     }
+
     return obj
   }
 }

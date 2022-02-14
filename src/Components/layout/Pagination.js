@@ -59,7 +59,6 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
         </button>
 
         {
-          !!morePagesLess &&
           morePagesLess.map((itm,idx) =>
             <button
               key={idx}
@@ -78,7 +77,7 @@ const Pagination = ({page,totalPages,handlePagination,lastPage,fetchPageData}) =
         </span>
 
         {
-          !!morePagesGreater &&
+        
           morePagesGreater.map((itm,idx) =>
             <button
               key={idx}

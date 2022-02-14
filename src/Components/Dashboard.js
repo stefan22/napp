@@ -152,8 +152,8 @@ class Dashboard extends Component {
     }
   }
 
-  checkRenderType = (t,p) => (
-    (t.type.toLowerCase() === p.toLowerCase()) ? p : false
+  checkRenderType = (t) => (
+    t.type.toLowerCase() === "user" ? true : false
   )
 
   handlePagination = async (direction) => {
@@ -219,7 +219,7 @@ class Dashboard extends Component {
     }
   }
 
-  fetchGitData = async (usr,param='User') => {
+  fetchGitData = async (usr) => {
     if(usr === '') {
       return this.setState({
         gitSearch: {users: '',org: ''},
@@ -232,12 +232,13 @@ class Dashboard extends Component {
     }
     let filres = []
     this.setState({loading: true})
-    let response = await GitAPI_searchUser(usr,param)
+    let response = await GitAPI_searchUser(usr)
     if(response !== undefined) {
       //search results
+      //debugger;
       this.handleHeaderLinks(response)
       response.items.filter(itm =>  //filtered out types
-        this.checkRenderType(itm,param) ? filres.push(itm) : false
+        this.checkRenderType(itm) ? filres.push(itm) : false
       )
       //update gitSearch state
       this.updateGitList(filres)
@@ -305,7 +306,7 @@ class Dashboard extends Component {
                         <h3>{message}</h3>
                         }
                         {
-                          !!org && filterBy === 'Organization' && !loading &&
+                          !!org && filterBy === 'Organization' &&
                       <GitOrgInfo
                         org={org}
                         repos={repos}
