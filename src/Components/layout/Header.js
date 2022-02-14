@@ -7,6 +7,7 @@ import logo__white from '../../images/logo-one-try__white.png'
 import donPioPath from '../helpers/donPioPath'
 
 
+
 class Header extends Component {
   constructor(props) {
     super(props)
@@ -54,22 +55,29 @@ class Header extends Component {
       results,matchingResuls,filterBy,
       handleChange,handleFilter,handleSearchQuery,goBack} = this.props
 
+    
+     
     return (
 
       <header>
         <div className={'topnav-container'}>
 
           <div className={`
-           ${(donPioPath() === pathName) ?
-        'topnav-logo' : 'topnav-logo gituser-header'}`}>
-            <img src={logo__white} alt='logo' />
+           ${(donPioPath === pathName) ?
+        'topnav-logo' : 'topnav-logo gituser-header'}
+        
+        `}>
+            <img src={logo__white} alt='logo' /><span className='warning'>I\'m old and need updating. But still working :)</span>
           </div>
           <div className={`
-           ${(donPioPath() === pathName) ? 'topnav-link' : 'topnav-link gituser'}`}>
+           ${(donPioPath === pathName) ? 'topnav-link' : 'topnav-link gituser'}
+           
+          `}>
+
             <p>GitHub</p>
           </div>
           {
-            (donPioPath() !== pathName) ?
+            (donPioPath !== pathName) ?
               <div className='topnav-link goback'>
                 <button
                   onClick={goBack}>Go Back</button>
@@ -79,7 +87,7 @@ class Header extends Component {
         </div>
 
         {
-          (donPioPath() === pathName) ?
+          (donPioPath === pathName) ?
             <SearchContainer
               filterBy={filterBy}
               results={results}

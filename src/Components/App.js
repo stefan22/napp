@@ -11,7 +11,7 @@ const App = () => (
 
   <Router>
     <Switch>
-      <Route path={donPioPath()}
+      <Route path={donPioPath}
         component={Dashboard} exact
       />
       <Route path={'/gituser/:id'} exact

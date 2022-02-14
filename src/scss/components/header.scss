@@ -346,3 +346,15 @@ header {
   font-variant-caps: petite-caps;
   font-weight: 600;
 }
+
+
+.warning {
+  display: inline-block;
+    width: fit-content;
+    margin-left: 2rem;
+    line-height: 2;
+    margin-top: 0;
+    color: #2a5b6c;
+    vertical-align: top;
+    padding: 0;
+}
